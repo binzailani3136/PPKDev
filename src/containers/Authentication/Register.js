@@ -40,7 +40,7 @@ class Register extends Component {
   }
 
   doLogin() {
-    this.props.replaceRoute('home');
+    this.props.replaceRoute('main');
   }
   doSignUp() {
     alert('signup');

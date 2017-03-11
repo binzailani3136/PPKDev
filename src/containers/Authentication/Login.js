@@ -37,14 +37,14 @@ class Login extends Component {
     this.props.setSpinnerVisible(true);
     setTimeout(() => {
       this.props.setSpinnerVisible(false);
-      this.props.replaceRoute('home');
+      this.props.replaceRoute('main');
     }, 500);
   }
   doFacebookLogin() {
     //this.props.setSpinnerVisible(true);
     setTimeout(() => {
       this.props.setSpinnerVisible(false);
-      this.props.replaceRoute('home');
+      this.props.replaceRoute('main');
     }, 500);
   }
   doRegister() {

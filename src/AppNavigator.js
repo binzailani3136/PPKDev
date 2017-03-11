@@ -10,7 +10,7 @@ import Intro from '@containers/Intro';
 import Login from '@containers/Authentication/Login';
 import Register from '@containers/Authentication/Register';
 import ForgotPassword from '@containers/Authentication/ForgotPassword';
-import Home from '@containers/Home';
+import Main from '@containers/Main';
 import TipsList from '@containers/TipsList';
 import Top10 from '@containers/Top10';
 import TipDetails from '@containers/TipDetails';
@@ -69,8 +69,8 @@ class AppNavigator extends Component {
         return <Register navigator={navigator} {...route.passProps} />;
       case 'forgotpwd':
         return <ForgotPassword navigator={navigator} {...route.passProps} />;
-      case 'home':
-        return <Home navigator={navigator} {...route.passProps} />;
+      case 'main':
+        return <Main navigator={navigator} {...route.passProps} />;
       case 'tipslist':
         return <TipsList navigator={navigator} {...route.passProps} />;
       case 'top10':
@@ -90,13 +90,13 @@ class AppNavigator extends Component {
           configureScene={(route) => {
             const id = route.id;
             if (id === 'splash' || id === 'login' || id === 'register' || id === 'forgotpwd'
-              || id === 'home' || id === 'top10')
+              || id === 'main' || id === 'top10')
               return Navigator.SceneConfigs.FadeAndroid;
             else if (id === 'login') return Navigator.SceneConfigs.PushFromRight;
             else if (id === 'register') return Navigator.SceneConfigs.FadeAndroid;
             return Navigator.SceneConfigs.PushFromRight;
           }}
-          initialRoute={{ id: 'home' }}
+          initialRoute={{ id: 'main' }}
           renderScene={this.renderScene.bind(this)}
         />
       </View>

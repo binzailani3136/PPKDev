@@ -5,22 +5,19 @@ import I18n from 'react-native-i18n';
 import { Tabs, Tab } from 'react-native-elements';
 
 
-import { setHomeTab } from '@actions/globals';
+import { setMainTab } from '@actions/globals';
 import Constants from '@src/constants';
 import { Metrics, Styles, Colors, Fonts } from '@theme/';
 import styles from './styles';
 
-import An10na from './An10na';
+import Home from './Home';
 import Who from './Who';
 import What from './What';
 import Watch from './Watch';
 import Share from './Share';
 
-class Home extends Component {
+class Main extends Component {
 
-  setHomeTab(homeTab) {
-    this.props.setHomeTab(homeTab);
-  }
   renderTabButtonIcon(icon, selected) {
     return (
       <View
@@ -44,17 +41,17 @@ class Home extends Component {
       case 1:
         return <What navigator={this.props.navigator} />;
       case 2:
-        return <An10na navigator={this.props.navigator} />;
+        return <Home navigator={this.props.navigator} />;
       case 3:
         return <Watch navigator={this.props.navigator} />;
       case 4:
         return <Share navigator={this.props.navigator} />;
       default :
-        return <An10na navigator={this.props.navigator} />;
+        return <Home navigator={this.props.navigator} />;
     }
   }
   render() {
-    const selectedTab = this.props.globals.homeTab;
+    const selectedTab = this.props.globals.mainTab;
     const selectedTabButtonStyle = { backgroundColor: Colors.textPrimary };
     const unselectedTabButtonStyle = { backgroundColor: Colors.backgroundPrimary };
     return (
@@ -71,7 +68,7 @@ class Home extends Component {
                 selectedTitleStyle={[Fonts.style.tabButtonText, { color: Colors.brandPrimary }]}
                 renderIcon={() => this.renderTabButtonIcon(item.icon, false)}
                 renderSelectedIcon={() => this.renderTabButtonIcon(item.icon, true)}
-                onPress={() => this.setHomeTab(item.title)}>
+                onPress={() => this.props.setMainTab(item.title)}>
                 {this.renderBody(item.id)}
               </Tab>
             ))
@@ -82,19 +79,19 @@ class Home extends Component {
   }
 }
 
-Home.propTypes = {
+Main.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
-  setHomeTab: React.PropTypes.func.isRequired,
+  setMainTab: React.PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    setHomeTab: homeTab => dispatch(setHomeTab(homeTab)),
+    setMainTab: mainTab => dispatch(setMainTab(mainTab)),
   };
 }
 function mapStateToProps(state) {
   const globals = state.get('globals');
   return { globals };
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

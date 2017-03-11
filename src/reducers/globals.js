@@ -3,12 +3,12 @@ import { createReducer } from 'reduxsauce';
 import Types from '@actions/actionTypes';
 
 export const initialState = Immutable({
-  homeTab: 'HOME',
+  mainTab: 'HOME',
   spinnerVisible: false,
 });
-const homeTab = (state, action) => ({
+const mainTab = (state, action) => ({
   ...state,
-  homeTab: action.homeTab,
+  mainTab: action.mainTab,
 });
 const spinnerVisible = (state, action) => ({
   ...state,
@@ -16,7 +16,7 @@ const spinnerVisible = (state, action) => ({
 });
 
 const actionHandlers = {
-  [Types.SET_HOME_TAB]: homeTab,
+  [Types.SET_MAIN_TAB]: mainTab,
   [Types.SET_SPINNER_VISIBLE]: spinnerVisible,
 };
 export default createReducer(initialState, actionHandlers);

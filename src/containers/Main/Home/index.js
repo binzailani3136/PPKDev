@@ -16,7 +16,7 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
 import Dummy from '@src/dummydata';
 
-class An10na extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -112,7 +112,7 @@ class An10na extends Component {
   }
 }
 
-An10na.propTypes = {
+Home.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   replaceRoute: React.PropTypes.func.isRequired,
   pushNewRoute: React.PropTypes.func.isRequired,
@@ -133,4 +133,4 @@ function mapStateToProps(state) {
   return { globals };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(An10na);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
