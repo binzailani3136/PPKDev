@@ -1,0 +1,57 @@
+{
+	"name": "PPK",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"start": "node node_modules/react-native/local-cli/cli.js start",
+		"test": "jest"
+	},
+	"dependencies": {
+    "assign-deep": "^0.4.5",
+    "immutable": "^3.8.1",
+    "linkify-it": "^2.0.3",
+    "loadash": "0.0.1",
+    "lodash.merge": "^4.6.0",
+    "react": "~15.4.1",
+    "react-addons-shallow-compare": "^15.4.2",
+    "react-motion": "^0.4.7",
+    "react-native": "0.42.0",
+    "react-native-elements": "^0.9.7",
+    "react-native-hyperlink": "0.0.8",
+    "react-native-i18n": "^1.0.0",
+    "react-native-image-picker": "^0.26.0",
+    "react-native-image-resizer": "^0.1.0",
+    "react-native-keyboard-aware-scroll-view": "^0.2.7",
+    "react-native-material-kit": "^0.4.1",
+    "react-native-navbar": "^1.6.2",
+    "react-native-scrollable-tab-view": "^0.7.2",
+    "react-native-simple-store": "^1.1.0",
+    "react-native-spinkit": "^1.0.2",
+    "react-native-swiper": "git+https://github.com/FuYaoDe/react-native-swiper.git",
+    "react-native-vector-icons": "^4.0.0",
+    "react-redux": "^5.0.3",
+    "redux": "^3.6.0",
+    "redux-immutable": "^3.1.0",
+    "redux-persist": "^4.4.2",
+    "redux-saga": "^0.14.3",
+    "reduxsauce": "^0.4.1",
+    "remote-redux-devtools": "^0.5.7",
+    "seamless-immutable": "^7.0.1",
+    "style-equal": "^1.0.0",
+		"react-native-maps": "^0.13.0"
+	},
+	"devDependencies": {
+    "babel-jest": "19.0.0",
+    "babel-preset-react-native": "1.9.1",
+    "eslint": "^3.17.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.0",
+    "jest": "19.0.2",
+    "react-test-renderer": "~15.4.1"
+	},
+	"jest": {
+		"preset": "react-native"
+	}
+}
