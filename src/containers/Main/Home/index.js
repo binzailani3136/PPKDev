@@ -14,7 +14,8 @@ import styles from '../styles';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
 import SearchBar from '@components/SearchBar';
-import {searchAlgolia, defaultSearchParams} from '@api/algoliaAPI';
+import {searchAlgolia, defaultSearchParams, priceShort} from '@api/algoliaAPI';
+import PriceMarker from '@components/PriceMarker';
 
 import Dummy from '@src/dummydata';
 
@@ -72,19 +73,21 @@ class Home extends Component {
     console.log('total');
     console.log(total);
 
-    // var mapPropertiesMark = [{key: 1, latlng: {latitude: 38.138928192103855, longitude: -80.53564663281253}, title: "test mark", description: "test test" },]
     this.setState({searchProperties:respArr});
   }
 
   onMapRegionChange(region) {
-     this.setState({ mapRegion:region });
-// console.log('onMapRegionChange');
-// console.log(region);
+    this.setState({ mapRegion:region });
+
     searchParams = defaultSearchParams;
     searchParams.type = ["Condo", "Single Family"];
     searchParams = this.getSearchParam(searchParams);
 
     searchAlgolia(searchParams, true, false, this.processSearchResult.bind(this));
+
+  }
+
+  onMapMarkerSelected(marker) {
 
   }
 
@@ -102,7 +105,6 @@ class Home extends Component {
             provider={PROVIDER_GOOGLE}
             style={styles.mainMapView}
             initialRegion = {this.state.mapRegion}
-            region={this.state.mapRegion}
             onRegionChange={this.onMapRegionChange.bind(this)}            
           >
             {this.state.searchProperties.map( marker => (
@@ -112,9 +114,15 @@ class Home extends Component {
                   latitude: marker.locSearch[1],
                   longitude: marker.locSearch[0],
                   }}
-                  title={marker.price.toString()}
-                  description={marker.price.toString()}
-                />
+                  title={ priceShort(marker.price) }
+                  description={priceShort(marker.price) }
+                >
+                  <PriceMarker
+                    amount={priceShort(marker.price)}
+                    selected={this.onMapMarkerSelected.bind(this)}
+                  />
+
+                </MapView.Marker>
               ))}          
           </MapView>
           

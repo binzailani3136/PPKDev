@@ -344,4 +344,28 @@ export var dict = {
   },
 };
 
+export var translate = function(text) {
+    return dict[window.currentLocale][text] || text
+};
+export var isEmptyObj = function(obj) {
+    for (var prop in obj)
+        if (obj.hasOwnProperty(prop)) return !1;
+    return !0
+};
+export var toNumber = function(num) {
+    return num && parseFloat(num) ? parseFloat(num).toFixed(2) : num
+};
+export var numberComma = function(num) {
+    return num ? num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : void 0
+};
+export var short_price = function(price) {
+    return isInt(price) ? price : parseFloat(price.toFixed(2))
+};
+export var priceShort = function(price) {
+    return price ? 2e4 > price ? "$" + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : price >= 1e6 ? "$" + short_price(price / 1e6) + "M" : "$" + Math.round(price / 1e3) + "k" : void 0
+};
+export function isInt(n) {
+    return Number(n) === n && n % 1 === 0
+};
+
 
