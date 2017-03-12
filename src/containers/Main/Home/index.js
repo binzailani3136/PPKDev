@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { View, ScrollView, TouchableOpacity, Text, Image, } from 'react-native';
+import { View, ScrollView, TouchableOpacity, Text, Image } from 'react-native';
 import { connect } from 'react-redux';
 import I18n from 'react-native-i18n';
 import NavigationBar from 'react-native-navbar';
-import { SearchBar } from 'react-native-elements';
 import { MKCheckbox, MKRadioButton, MKSlider } from 'react-native-material-kit';
 
 import { replaceRoute, pushNewRoute } from '@actions/route';
@@ -14,6 +13,9 @@ import CommonWidgets from '@components/CommonWidgets';
 import styles from '../styles';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
+import SearchBar from '@components/SearchBar';
+import {searchAlgolia, defaultSearchParams} from '@api/algoliaAPI';
+
 import Dummy from '@src/dummydata';
 
 class Home extends Component {
@@ -21,64 +23,69 @@ class Home extends Component {
     super(props);
     this.state = {
       searchKeyword: '',
-      useFilter: true,
-      searchBy: I18n.t('AGE'),
-      sliderValue: 10,
-      containerHeight: 0,
+
+      mapRegion: {
+          latitude: 38.138928192103855,
+          longitude: -80.53564663281253,
+          latitudeDelta: 10,
+          longitudeDelta: 10,
+        },
+      
+      searchProperties:[],
     };
-    this.radioGroup = new MKRadioButton.Group();
     this.onSearchKeywordInputChange = this.onSearchKeywordInputChange.bind(this);
-    this.onUseFilterChkBoxChange = this.onUseFilterChkBoxChange.bind(this);
-    this.onSearchByRadioChange = this.onSearchByRadioChange.bind(this);
-    this.onConfirmSliderValue = this.onConfirmSliderValue.bind(this);
+  }
+
+  componentWillMount() {
+
+    searchParams = defaultSearchParams;
+    searchParams.type = ["Condo", "Single Family"];
+    searchParams = this.getSearchParam(searchParams);
+
+    searchAlgolia(searchParams, true, false, this.processSearchResult.bind(this));
   }
 
   onSearchKeywordInputChange(keyword) {
     this.setState({ searchKeyword: keyword });
   }
 
-  onGoClick() {
-    // TODO : Integrate with search API
-    this.props.setSpinnerVisible(true);
-    setTimeout(() => {
-      this.props.setSpinnerVisible(false);
-    }, 1000);
+  getSearchParam(searchParams) {
+      delete searchParams.school;
+      delete searchParams.school_type;
+      delete searchParams.city;
+      delete searchParams.community;
+
+      var ne = {lat:this.state.mapRegion.latitude - this.state.mapRegion.latitudeDelta / 2,
+                lng:this.state.mapRegion.longitude - this.state.mapRegion.longitudeDelta / 2};
+      var sw = {lat:this.state.mapRegion.latitude + this.state.mapRegion.latitudeDelta / 2,
+                lng:this.state.mapRegion.longitude + this.state.mapRegion.longitudeDelta / 2};
+      strInsideBoundingBox = ne.lat + "," + ne.lng + "," + sw.lat + "," + sw.lng;
+      
+      searchParams.insideBoundingBox = strInsideBoundingBox;
+
+      return searchParams;
   }
 
-  onUseFilterChkBoxChange(object) {
-    this.setState({ useFilter: object.checked });
+  processSearchResult(respArr, total) {
+    console.log('respArr');
+    console.log(respArr);
+    console.log('total');
+    console.log(total);
+
+    // var mapPropertiesMark = [{key: 1, latlng: {latitude: 38.138928192103855, longitude: -80.53564663281253}, title: "test mark", description: "test test" },]
+    this.setState({searchProperties:respArr});
   }
 
-  onSearchByRadioChange(object, option) {
-    if (object.checked === true) {
-      this.setState({ searchBy: option });
-    }
-  }
+  onMapRegionChange(region) {
+     this.setState({ mapRegion:region });
+// console.log('onMapRegionChange');
+// console.log(region);
+    searchParams = defaultSearchParams;
+    searchParams.type = ["Condo", "Single Family"];
+    searchParams = this.getSearchParam(searchParams);
 
-  onConfirmSliderValue(sliderValue) {
-    this.setState({ sliderValue: Math.round(sliderValue) });
-    // TODO: Search
-  }
+    searchAlgolia(searchParams, true, false, this.processSearchResult.bind(this));
 
-  onTopicItemPressed(item, index) {
-    // this.props.pushNewRoute('tipslist');
-    this.props.navigator.push({
-      id: 'tipslist',
-      passProps: {
-        topic: item,
-      },
-    });
-  }
-
-  getContainerHeight(containerHeight) {
-    this.setState({ containerHeight });
-  }
-  renderTopics() {
-    return (
-      Dummy.TOPICS.map((item, index) => (
-        CommonWidgets.renderTopicListItem(item, () => this.onTopicItemPressed(item, index))
-      ))
-    );
   }
 
   render() {
@@ -87,29 +94,63 @@ class Home extends Component {
         {CommonWidgets.renderStatusBar(Colors.brandPrimary)}
         <NavigationBar
           style={Styles.navBarStyle}
-          title={CommonWidgets.renderNavBarHeader(I18n.t('APP_NAME'))}
+          title={this.renderSearchBar()}
           tintColor={Colors.brandSecondary} />
-        <View style={styles.ppkBody}>
+        <View style={styles.mainBody}>
+
           <MapView
             provider={PROVIDER_GOOGLE}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-            }}
-            region={{
-              latitude: 49.444433,
-              longitude: 32.059767,
-              latitudeDelta: 0.015,
-              longitudeDelta: 0.0121,
-            }}
-          />
+            style={styles.mainMapView}
+            initialRegion = {this.state.mapRegion}
+            region={this.state.mapRegion}
+            onRegionChange={this.onMapRegionChange.bind(this)}            
+          >
+            {this.state.searchProperties.map( marker => (
+                <MapView.Marker
+                  key= {marker.objectID}
+                  coordinate={{
+                  latitude: marker.locSearch[1],
+                  longitude: marker.locSearch[0],
+                  }}
+                  title={marker.price.toString()}
+                  description={marker.price.toString()}
+                />
+              ))}          
+          </MapView>
+          
         </View>
       </View>
     );
   }
+
+  renderSearchBar() {
+    return (
+      <View style={Styles.center}>
+        <View
+          style={{ flexDirection: 'row',
+            marginTop: 15,
+            justifyContent: 'flex-start',
+            alignSelf: 'center',
+            alignItems: 'center' }}>
+
+          <Text>Map</Text>
+          <SearchBar
+            onSearchChange={this.onSearchKeywordInputChange.bind(this)}
+            height={20}
+            width={Metrics.screenWidth * 0.75}
+            onFocus={() => console.log('On Focus')}
+            onBlur={() => console.log('On Blur')}
+            placeholder={'City, Community, School, ZIP'}
+            autoCorrect={false}
+            padding={10}
+            returnKeyType={'search'}
+        />
+          <Text>Filter</Text>
+        </View>
+      </View>
+    );
+  }
+
 }
 
 Home.propTypes = {

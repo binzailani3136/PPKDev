@@ -32,30 +32,6 @@ class What extends Component {
           title={CommonWidgets.renderNavBarHeader(I18n.t('DO_IT_YOURSELF'))}
           tintColor={Colors.brandSecondary} />
         <View style={[Styles.center, { flex: 1, padding: 15 }]}>
-          <View>
-            <Text style={[Fonts.style.h4, { color: Colors.textThird }]}>
-              {I18n.t('DIY_TOPIC_RULES')}
-            </Text>
-            <Text style={[Fonts.style.defaultText, { color: Colors.textThird }]}>
-              {DummyData.LOREM_SHORT}
-            </Text>
-            {CommonWidgets.renderSpacer()}
-            <Text style={[Fonts.style.h4, { color: Colors.textThird }]}>
-              {I18n.t('DIY_TIP_RULES')}
-            </Text>
-            <Text style={[Fonts.style.defaultText, { color: Colors.textThird }]}>
-              {DummyData.LOREM_NORMAL}
-            </Text>
-          </View>
-          {CommonWidgets.renderSpacer()}
-          {CommonWidgets.renderSpacer()}
-          {CommonWidgets.renderSpacer()}
-          <View style={[Styles.center]}>
-            {CommonWidgets.renderMaterialButton(I18n.t('SUGGEST_NEW_TOPIC'), Colors.brandPrimary, () => alert('SUGGEST_CLICK'))}
-            {CommonWidgets.renderSpacer()}
-            {CommonWidgets.renderMaterialButton(I18n.t('POST_NEW_TIP'), Colors.brandPrimary, () => alert('POST_CLICK'))}
-          </View>
-
         </View>
       </View>
     );

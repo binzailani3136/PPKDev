@@ -12,8 +12,6 @@ import styles from './styles';
 
 import Home from './Home';
 import Who from './Who';
-import What from './What';
-import Watch from './Watch';
 import Share from './Share';
 
 class Main extends Component {
@@ -39,12 +37,8 @@ class Main extends Component {
       case 0:
         return <Who navigator={this.props.navigator} />;
       case 1:
-        return <What navigator={this.props.navigator} />;
-      case 2:
         return <Home navigator={this.props.navigator} />;
-      case 3:
-        return <Watch navigator={this.props.navigator} />;
-      case 4:
+      case 2:
         return <Share navigator={this.props.navigator} />;
       default :
         return <Home navigator={this.props.navigator} />;

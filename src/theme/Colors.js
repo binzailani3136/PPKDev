@@ -1,5 +1,5 @@
 const colors = {
-  brandPrimary: '#E22F4D',
+  brandPrimary: '#E2E2E2',
   brandSecondary: '#27C87D',
   brandThird: '#1E80C7',
 

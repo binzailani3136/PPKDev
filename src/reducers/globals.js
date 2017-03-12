@@ -3,7 +3,7 @@ import { createReducer } from 'reduxsauce';
 import Types from '@actions/actionTypes';
 
 export const initialState = Immutable({
-  mainTab: 'HOME',
+  mainTab: 'Find Homes',
   spinnerVisible: false,
 });
 const mainTab = (state, action) => ({

@@ -9,6 +9,7 @@ const metrics = {
   screenWidth: width < height ? width : height,
   screenHeight: screenHeightTmp,
   navBarHeight: 60,
+  tabHeight: 50,
   defaultMargin: 10,
   defaultPadding: 10,
   listItemHeight: screenHeightTmp / 9,

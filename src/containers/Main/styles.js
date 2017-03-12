@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { Styles, Fonts, Colors, Metrics } from '@theme/';
 
 export default StyleSheet.create({
@@ -32,15 +32,19 @@ export default StyleSheet.create({
     width: Metrics.screenWidth / 12,
     height: Metrics.screenWidth / 12,
   },
-  ppkBody: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+  mainBody: {
     justifyContent: 'flex-end',
     alignItems: 'center',
+    width:Metrics.screenWidth,
+    height:Metrics.screenHeight-Metrics.navBarHeight-Metrics.tabHeight,
   },
+  mainMapView: {
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width:Metrics.screenWidth,
+    height:Metrics.screenHeight-Metrics.navBarHeight-Metrics.tabHeight,
+  },
+
   shareDescriptionText: {
     ...Fonts.style.listItemDescriptionText,
     textAlign: 'center',

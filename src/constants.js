@@ -8,11 +8,9 @@ const constants = {
     { key: 2, label: I18n.t('CANCEL') },
   ],
   HOME_TABS: [
-    { id: 0, title: 'WHO', icon: Icons.who },
-    { id: 1, title: 'WHAT', icon: Icons.what },
-    { id: 2, title: 'HOME', icon: Icons.an10na },
-    { id: 3, title: 'WATCH', icon: Icons.watch },
-    { id: 4, title: 'SHARE', icon: Icons.share },
+    { id: 0, title: 'New Homes', icon: Icons.who },
+    { id: 1, title: 'Find Homes', icon: Icons.an10na },
+    { id: 2, title: 'My Redfin', icon: Icons.share },
   ],
   AGE: {
     MIN: 1,
