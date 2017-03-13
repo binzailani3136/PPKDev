@@ -1,15 +1,15 @@
 const colors = {
-  brandPrimary: '#E2E2E2',
+  brandPrimary: '#F7F7F7',
   brandSecondary: '#27C87D',
   brandThird: '#1E80C7',
 
-  textPrimary: '#FFFFFF',
+  textPrimary: '#454545',
   textSecondary: '#000000',
   textThird: '#555555',
   textFourth: '#89979F',
   textPlaceholder: '#DDDDDD',
 
-  backgroundPrimary: '#F0F3EA',
+  backgroundPrimary: '#F7F7F7',
   backgroundSecondary: '#FFFFFF',
   backgroundThird: '#e1e8ee',
 

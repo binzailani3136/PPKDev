@@ -19,7 +19,7 @@ import PriceMarker from '@components/PriceMarker';
 
 import Dummy from '@src/dummydata';
 
-class Home extends Component {
+class FindHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -137,7 +137,7 @@ class Home extends Component {
         <View
           style={{ flexDirection: 'row',
             marginTop: 15,
-            justifyContent: 'flex-start',
+            justifyContent: 'flex-end',
             alignSelf: 'center',
             alignItems: 'center' }}>
 
@@ -151,8 +151,7 @@ class Home extends Component {
             placeholder={'City, Community, School, ZIP'}
             autoCorrect={false}
             padding={10}
-            returnKeyType={'search'}
-        />
+            returnKeyType={'search'} />
           <Text>Filter</Text>
         </View>
       </View>
@@ -161,7 +160,7 @@ class Home extends Component {
 
 }
 
-Home.propTypes = {
+FindHome.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   replaceRoute: React.PropTypes.func.isRequired,
   pushNewRoute: React.PropTypes.func.isRequired,
@@ -182,4 +181,4 @@ function mapStateToProps(state) {
   return { globals };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(FindHome);

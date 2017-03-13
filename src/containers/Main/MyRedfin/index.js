@@ -7,18 +7,21 @@ import NavigationBar from 'react-native-navbar';
 import { replaceRoute } from '@actions/route';
 import { setSpinnerVisible } from '@actions/globals';
 
-import { Styles, Colors, Fonts, Metrics } from '@theme/';
+import { Styles, Colors, Fonts } from '@theme/';
 import CommonWidgets from '@components/CommonWidgets';
 import Constants from '@src/constants';
 import Utils from '@src/utils';
-import styles from '../styles';
 
-class Share extends Component {
+
+class MyRedfin extends Component {
   constructor(props) {
     super(props);
     this.state = {
 
     };
+  }
+
+  componentWillMount() {
   }
 
   render() {
@@ -27,16 +30,16 @@ class Share extends Component {
         {CommonWidgets.renderStatusBar(Colors.brandPrimary)}
         <NavigationBar
           style={Styles.navBarStyle}
-          title={CommonWidgets.renderNavBarHeader(I18n.t('SHARE'))}
+          title={CommonWidgets.renderNavBarHeader('My Redfin')}
           tintColor={Colors.brandSecondary} />
-        <View style={[Styles.center, { flex: 1 }]}>
-        </View>
+        <ScrollView style={{ flex: 1 }}>
+        </ScrollView>
       </View>
     );
   }
 }
 
-Share.propTypes = {
+MyRedfin.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   replaceRoute: React.PropTypes.func.isRequired,
   setSpinnerVisible: React.PropTypes.func.isRequired,
@@ -55,7 +58,7 @@ function mapStateToProps(state) {
   return { globals };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Share);
+export default connect(mapStateToProps, mapDispatchToProps)(MyRedfin);
 
 
 

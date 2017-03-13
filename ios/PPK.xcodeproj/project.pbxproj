@@ -991,6 +991,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 3C4BBSPB8J;
+						ProvisioningStyle = Manual;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1651,6 +1652,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rdt.ppkdev;
 				PRODUCT_NAME = PPK;
+				PROVISIONING_PROFILE = "6c4479df-3d30-4716-9fb0-27caf1179b30";
+				PROVISIONING_PROFILE_SPECIFIER = "PPKDev Provision";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1662,6 +1665,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3C4BBSPB8J;
 				HEADER_SEARCH_PATHS = (
@@ -1684,6 +1688,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rdt.ppkdev;
 				PRODUCT_NAME = PPK;
+				PROVISIONING_PROFILE = "d6003704-5950-42f1-9909-2f997ae0e37a";
+				PROVISIONING_PROFILE_SPECIFIER = "PPKPub Provision";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};

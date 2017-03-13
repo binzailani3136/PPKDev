@@ -10,9 +10,9 @@ import Constants from '@src/constants';
 import { Metrics, Styles, Colors, Fonts } from '@theme/';
 import styles from './styles';
 
-import Home from './Home';
-import Who from './Who';
-import Share from './Share';
+import FindHome from './FindHome';
+import MyRedfin from './MyRedfin';
+import NewHome from './NewHome';
 
 class Main extends Component {
 
@@ -35,13 +35,13 @@ class Main extends Component {
   renderBody(name) {
     switch (name) {
       case 0:
-        return <Who navigator={this.props.navigator} />;
+        return <FindHome navigator={this.props.navigator} />;
       case 1:
-        return <Home navigator={this.props.navigator} />;
+        return <MyRedfin navigator={this.props.navigator} />;
       case 2:
-        return <Share navigator={this.props.navigator} />;
-      default :
-        return <Home navigator={this.props.navigator} />;
+        return <NewHome navigator={this.props.navigator} />;
+      default:
+        return <FindHome navigator={this.props.navigator} />;
     }
   }
   render() {

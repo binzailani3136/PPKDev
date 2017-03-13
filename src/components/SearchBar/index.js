@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
 });
 
 export default class SearchBar extends React.Component {
-
   static propTypes = {
     height: PropTypes.number.isRequired,
     autoCorrect: PropTypes.bool,
@@ -123,7 +122,7 @@ export default class SearchBar extends React.Component {
     return (
       <View
         onStartShouldSetResponder={this._dismissKeyboard}
-        style={{padding: padding }}
+        style={{paddingLeft: padding, paddingRight: padding }}
       >
         <View
           style={

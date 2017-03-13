@@ -11,16 +11,15 @@ import { Styles, Colors, Fonts, Metrics } from '@theme/';
 import CommonWidgets from '@components/CommonWidgets';
 import Constants from '@src/constants';
 import Utils from '@src/utils';
-import DummyData from '@src/dummydata';
+import styles from '../styles';
 
-class What extends Component {
+class NewHome extends Component {
+  
   constructor(props) {
     super(props);
     this.state = {
 
     };
-  }
-  componentWillMount() {
   }
 
   render() {
@@ -29,16 +28,17 @@ class What extends Component {
         {CommonWidgets.renderStatusBar(Colors.brandPrimary)}
         <NavigationBar
           style={Styles.navBarStyle}
-          title={CommonWidgets.renderNavBarHeader(I18n.t('DO_IT_YOURSELF'))}
+          title={CommonWidgets.renderNavBarHeader('New Homes')}
           tintColor={Colors.brandSecondary} />
-        <View style={[Styles.center, { flex: 1, padding: 15 }]}>
+        <View style={[Styles.center, { flex: 1 }]}>
         </View>
       </View>
     );
   }
+
 }
 
-What.propTypes = {
+NewHome.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   replaceRoute: React.PropTypes.func.isRequired,
   setSpinnerVisible: React.PropTypes.func.isRequired,
@@ -57,7 +57,7 @@ function mapStateToProps(state) {
   return { globals };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(What);
+export default connect(mapStateToProps, mapDispatchToProps)(NewHome);
 
 
 

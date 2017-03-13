@@ -94,6 +94,8 @@ const Styles = {
     paddingHorizontal: 15,
     alignItems: 'flex-end',
     backgroundColor: Colors.brandPrimary,
+    borderBottomWidth:1,
+    borderColor: Colors.borderPrimary,
     height: Metrics.navBarHeight,
     marginTop: Platform.OS === 'ios' ? -Metrics.statusBarHeight : 0,
   },
