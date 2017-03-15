@@ -4,15 +4,7 @@ const schools = algoliasearch.initIndex('schools');
 const cities = algoliasearch.initIndex('cities');
 const communities = algoliasearch.initIndex('communities');
 
-export function searchAlgolia(searchParams, justReloaded, desktop_view, callBack) {
-//        changeTitle();
-    notSearched = !1;
-//        $rootScope.search_space.selectedProperty = void 0;
-
-      // var searchParams = $rootScope.searchParams;
-
-    if (justReloaded != true) { (searchParams.page = 1); }
-    justReloaded = !1;
+export function searchAlgolia(searchParams, callBack) {
 
     let numericfilters = [],
       filters = [],
@@ -48,8 +40,8 @@ export function searchAlgolia(searchParams, justReloaded, desktop_view, callBack
 
     if ((!searchParams.city && !searchParams.community) != true) {
       if (searchParams.school != true) {
+      // if (searchParams.school == null) {
               // $rootScope.algoliaInput.value = algInp.join(", ");
-
       }
     }
 
@@ -122,9 +114,7 @@ export function searchAlgolia(searchParams, justReloaded, desktop_view, callBack
       tS.aroundLatLng = `${searchParams.location.latitude},${searchParams.location.longitude}`;
     }
 
-      // $rootScope.loading = !0;
-      // tS.hitsPerPage = $rootScope.desktop_view ? 200 : 100;
-    tS.hitsPerPage = desktop_view ? 200 : 100;
+    tS.hitsPerPage = searchParams.hitsPerPage;
 
       // if( viewProp != true ) {
       //     history.pushState("", "", window.location.pathname + "?" + tjq.param(searchParams));
@@ -146,7 +136,8 @@ export function searchAlgolia(searchParams, justReloaded, desktop_view, callBack
 
     if (searchParams.communities) {
       communities.search(tS, (err, content) => {
-        if (err != true) {
+        if (err == null) {
+        // if (err != true) {
           totalFound += content.nbHits || 0;
 
           respArr = respArr.concat(content.hits.map((hit) => {
@@ -159,9 +150,9 @@ export function searchAlgolia(searchParams, justReloaded, desktop_view, callBack
       });
     }
 
-console.log(tS);
     properties.search(tS, (err, content) => {
-      if (err != true) {
+      // if (err != true) {
+      if (err == null) {
         totalFound += content.nbHits || 0;
 
         readyFn += 1;
@@ -172,7 +163,6 @@ console.log(tS);
 
     return tS;  
 }
-
 
 export var types = {
   Both: ['Condo', 'Single Family'],
@@ -314,25 +304,7 @@ export var defaultSearchParams = {
     from: '1000',
     to: '5000000',
   },
-};
-
-export var searchParams = {
-  baths_full: 1,
-  beds: 1,
-  sort: 'desc(date.listed)',
-  features: [],
-  type: 'Both',
-  school_elems: [],
-  school_middles: [],
-  school_highs: [],
-  regions: [],
-  community: 'Any',
-  for: 'sale',
-  page: 1,
-  price: {
-    from: '1000',
-    to: '5000000',
-  },
+  hitsPerPage : 20,
 };
 
 export var dict = {

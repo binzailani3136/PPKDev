@@ -2,56 +2,45 @@ import React, { Component } from 'react';
 import { View, ScrollView, TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';
 import I18n from 'react-native-i18n';
+import NavigationBar from 'react-native-navbar';
 
-import { replaceRoute, popRoute } from '@actions/route';
+import { replaceRoute } from '@actions/route';
 import { setSpinnerVisible } from '@actions/globals';
 
 import { Styles, Colors, Fonts, Metrics } from '@theme/';
 import CommonWidgets from '@components/CommonWidgets';
+import Constants from '@src/constants';
+import Utils from '@src/utils';
+import styles from '../styles';
 
-import Dummy from '@src/dummydata';
-
-class Topics10 extends Component {
+class Filter extends Component {
+  
   constructor(props) {
     super(props);
     this.state = {
-
     };
-  }
-
-  onTopicItemPressed(item, index) {
-    // this.props.pushNewRoute('tipslist');
-    this.props.navigator.push({
-      id: 'tipslist',
-      passProps: {
-        topic: item,
-      },
-    });
-  }
-
-  renderTopics() {
-    return (
-      Dummy.TOPICS.map((item, index) => (
-        CommonWidgets.renderTopicListItem(item, () => this.onTopicItemPressed(item, index))
-      ))
-    );
   }
 
   render() {
     return (
       <View style={Styles.listContainer}>
-        <ScrollView style={Styles.scrollViewContainer}>
-          {this.renderTopics()}
-        </ScrollView>
+        {CommonWidgets.renderStatusBar(Colors.brandPrimary)}
+        <NavigationBar
+          style={Styles.navBarStyle}
+          title={CommonWidgets.renderNavBarHeader('Filter')}
+          tintColor={Colors.brandSecondary} />
+        <View style={[Styles.center, { flex: 1 }]}>
+          <Text>Filter</Text>
+        </View>
       </View>
     );
   }
+
 }
 
-Topics10.propTypes = {
+Filter.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   replaceRoute: React.PropTypes.func.isRequired,
-  popRoute: React.PropTypes.func.isRequired,
   setSpinnerVisible: React.PropTypes.func.isRequired,
 };
 
@@ -59,7 +48,6 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     replaceRoute: route => dispatch(replaceRoute(route)),
-    popRoute: route => dispatch(popRoute()),
     setSpinnerVisible: spinnerVisible => dispatch(setSpinnerVisible(spinnerVisible)),
   };
 }
@@ -69,4 +57,4 @@ function mapStateToProps(state) {
   return { globals };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Topics10);
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);

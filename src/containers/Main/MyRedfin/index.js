@@ -30,9 +30,10 @@ class MyRedfin extends Component {
         {CommonWidgets.renderStatusBar(Colors.brandPrimary)}
         <NavigationBar
           style={Styles.navBarStyle}
-          title={CommonWidgets.renderNavBarHeader('My Redfin')}
+          title={CommonWidgets.renderNavBarHeader('My Favorites')}
           tintColor={Colors.brandSecondary} />
         <ScrollView style={{ flex: 1 }}>
+          <Text>My Favorites</Text>
         </ScrollView>
       </View>
     );

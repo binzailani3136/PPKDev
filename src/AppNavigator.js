@@ -10,10 +10,13 @@ import Intro from '@containers/Intro';
 import Login from '@containers/Authentication/Login';
 import Register from '@containers/Authentication/Register';
 import ForgotPassword from '@containers/Authentication/ForgotPassword';
+
 import Main from '@containers/Main';
-import TipsList from '@containers/TipsList';
-import Top10 from '@containers/Top10';
-import TipDetails from '@containers/TipDetails';
+import Filter from '@containers/Main/Filter';
+import Search from '@containers/Main/Search';
+
+import LocationServicesDialogBox from 'react-native-android-location-services-dialog-box';
+
 
 Navigator.prototype.replaceWithAnimation = function (route) {
   const activeLength = this.state.presentedIndex + 1;
@@ -39,6 +42,9 @@ Navigator.prototype.replaceWithAnimation = function (route) {
 
 export var globalNav = {};
 class AppNavigator extends Component {
+  componentWillMount() {
+  }
+
   componentDidMount() {
     globalNav.navigator = this._navigator;
 
@@ -71,12 +77,10 @@ class AppNavigator extends Component {
         return <ForgotPassword navigator={navigator} {...route.passProps} />;
       case 'main':
         return <Main navigator={navigator} {...route.passProps} />;
-      case 'tipslist':
-        return <TipsList navigator={navigator} {...route.passProps} />;
-      case 'top10':
-        return <Top10 navigator={navigator} {...route.passProps} />;
-      case 'tipdetails':
-        return <TipDetails navigator={navigator} {...route.passProps} />;
+      case 'search':
+        return <Search navigator={navigator} {...route.passProps} />;
+      case 'filter':
+        return <Filter navigator={navigator} {...route.passProps} />;
       default :
         return <Login navigator={navigator} {...route.passProps} />;
     }
@@ -89,11 +93,8 @@ class AppNavigator extends Component {
           ref={(ref) => { this._navigator = ref; }}
           configureScene={(route) => {
             const id = route.id;
-            if (id === 'splash' || id === 'login' || id === 'register' || id === 'forgotpwd'
-              || id === 'main' || id === 'top10')
+            if (id === 'splash' || id === 'login' || id === 'register'  || id === 'search')
               return Navigator.SceneConfigs.FadeAndroid;
-            else if (id === 'login') return Navigator.SceneConfigs.PushFromRight;
-            else if (id === 'register') return Navigator.SceneConfigs.FadeAndroid;
             return Navigator.SceneConfigs.PushFromRight;
           }}
           initialRoute={{ id: 'main' }}

@@ -31,6 +31,7 @@ class NewHome extends Component {
           title={CommonWidgets.renderNavBarHeader('New Homes')}
           tintColor={Colors.brandSecondary} />
         <View style={[Styles.center, { flex: 1 }]}>
+          <Text>New</Text>
         </View>
       </View>
     );

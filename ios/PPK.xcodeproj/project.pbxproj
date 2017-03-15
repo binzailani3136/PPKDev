@@ -28,6 +28,8 @@
 		20CACE97AB0348158B24B24E /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB971218C3C346A490CE44DB /* Foundation.ttf */; };
 		2610D5F39EA545DDB295FC4F /* libRCTImageResizer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97AD8BC0D366436F9A7ADF4E /* libRCTImageResizer.a */; };
 		26C2E578DB4C4AFB93B823A7 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AAAB22205064664BC30F762 /* MaterialIcons.ttf */; };
+		28263A2C1E799ED500435680 /* libRNLocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 28263A291E799EBF00435680 /* libRNLocation.a */; };
+		28263A2E1E799ED600435680 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28263A2D1E799ED600435680 /* CoreLocation.framework */; };
 		2841F91E1E74502700328804 /* TitilliumWeb-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2841F91A1E74502700328804 /* TitilliumWeb-Bold.ttf */; };
 		2841F91F1E74502700328804 /* TitilliumWeb-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2841F91B1E74502700328804 /* TitilliumWeb-Light.ttf */; };
 		2841F9201E74502700328804 /* TitilliumWeb-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2841F91C1E74502700328804 /* TitilliumWeb-Regular.ttf */; };
@@ -158,6 +160,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
+		};
+		28263A281E799EBF00435680 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28263A061E799EBE00435680 /* RNLocation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNLocation;
 		};
 		2841F8BE1E744FD000328804 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -359,6 +368,8 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = PPK/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		148E7891B0EE49F98EE2C92B /* RCTImageResizer.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTImageResizer.xcodeproj; path = "../node_modules/react-native-image-resizer/ios/RCTImageResizer.xcodeproj"; sourceTree = "<group>"; };
+		28263A061E799EBE00435680 /* RNLocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNLocation.xcodeproj; path = "../node_modules/react-native-location/RNLocation.xcodeproj"; sourceTree = "<group>"; };
+		28263A2D1E799ED600435680 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		2841F91A1E74502700328804 /* TitilliumWeb-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-Bold.ttf"; sourceTree = "<group>"; };
 		2841F91B1E74502700328804 /* TitilliumWeb-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-Light.ttf"; sourceTree = "<group>"; };
 		2841F91C1E74502700328804 /* TitilliumWeb-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-Regular.ttf"; sourceTree = "<group>"; };
@@ -476,6 +487,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28263A2E1E799ED600435680 /* CoreLocation.framework in Frameworks */,
+				28263A2C1E799ED500435680 /* libRNLocation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -626,6 +639,14 @@
 				3DAD3EAB1DF850E9000B6D8A /* libcxxreact.a */,
 				3DAD3EAD1DF850E9000B6D8A /* libjschelpers.a */,
 				3DAD3EAF1DF850E9000B6D8A /* libjschelpers.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		28263A071E799EBE00435680 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				28263A291E799EBF00435680 /* libRNLocation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -805,6 +826,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				28263A061E799EBE00435680 /* RNLocation.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -876,6 +898,7 @@
 		B7FDCC957A0AD3D305E0BDC8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				28263A2D1E799ED600435680 /* CoreLocation.framework */,
 				41BA9DE3CF319B2EC89D243F /* libPods-PPK.a */,
 			);
 			name = Frameworks;
@@ -1077,6 +1100,10 @@
 					ProjectRef = 028AC6E6CA3146749E959B0E /* RNImagePicker.xcodeproj */;
 				},
 				{
+					ProductGroup = 28263A071E799EBE00435680 /* Products */;
+					ProjectRef = 28263A061E799EBE00435680 /* RNLocation.xcodeproj */;
+				},
+				{
 					ProductGroup = 2841F8AA1E744FCE00328804 /* Products */;
 					ProjectRef = A9516C09CE344061BC25BAB9 /* RNSpinkit.xcodeproj */;
 				},
@@ -1150,6 +1177,13 @@
 			fileType = archive.ar;
 			path = libReact.a;
 			remoteRef = 146834031AC3E56700842450 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		28263A291E799EBF00435680 /* libRNLocation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNLocation.a;
+			remoteRef = 28263A281E799EBF00435680 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		2841F8BF1E744FD000328804 /* libRCTImageResizer.a */ = {

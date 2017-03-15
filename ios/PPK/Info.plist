@@ -24,6 +24,10 @@
 	<string>1</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>This is the plist item for NSLocationWhenInUseUsageDescription</string>
+  <key>NSLocationAlwaysUsageDescription</key>
+  <string>This is the plist item for NSLocationAlwaysUsageDescription</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

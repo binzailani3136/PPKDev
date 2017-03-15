@@ -11,8 +11,8 @@ import { Metrics, Styles, Colors, Fonts } from '@theme/';
 import styles from './styles';
 
 import FindHome from './FindHome';
-import MyRedfin from './MyRedfin';
 import NewHome from './NewHome';
+import MyRedfin from './MyRedfin';
 
 class Main extends Component {
 
@@ -37,9 +37,9 @@ class Main extends Component {
       case 0:
         return <FindHome navigator={this.props.navigator} />;
       case 1:
-        return <MyRedfin navigator={this.props.navigator} />;
-      case 2:
         return <NewHome navigator={this.props.navigator} />;
+      case 2:
+        return <MyRedfin navigator={this.props.navigator} />;
       default:
         return <FindHome navigator={this.props.navigator} />;
     }
