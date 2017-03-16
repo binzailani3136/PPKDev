@@ -14,46 +14,39 @@ import CommonWidgets from '@components/CommonWidgets';
 
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
-import {searchAlgolia, defaultSearchParams, priceShort} from '@api/algoliaAPI';
+import {searchAlgolia, priceShort} from '@api/algoliaAPI';
 import PriceMarker from '@components/PriceMarker';
 
-import { setProperies, setSearchParams } from '@actions/algolia';
+import { setProperies, setSearchParams, setSelectedProperty } from '@actions/algolia';
+import { Icons, Images } from '@theme';
+import styles from './styles';
 
 class HomeMapView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchKeyword: '',
-
       mapRegion: {
           latitude: 38.138928192103855,
           longitude: -80.53564663281253,
-            latitudeDelta: 10,//Zoom of Map = 20
-            longitudeDelta: (10 * Metrics.screenWidth) / Metrics.screenHeight,
+          latitudeDelta: 10,//Zoom of Map = 20
+          longitudeDelta: (10 * Metrics.screenWidth) / Metrics.screenHeight,
         },      
 
-      searchProperties:[],
+      IsDraw: false,
+      isPreviewVisible: false,
     };
   }
 
   componentWillMount() {
-    searchParams = defaultSearchParams;
-    searchParams = this.getSearchParam(searchParams, this.state.mapRegion);
-    this.props.setSearchParams(searchParams);
-
-    searchAlgolia(searchParams, (respArr, total) => {
-        this.props.setProperies(respArr);//properties;
-      })  
+    this.onMapRegionChangeComplete(this.state.mapRegion)
   }
 
-  getSearchParam(searchParams, region) {
-      delete searchParams.school;
-      delete searchParams.school_type;
-      delete searchParams.city;
-      delete searchParams.community;
+  getSearchParam(region) {
 
-      searchParams.type = ["Condo", "Single Family"];
-
+      let searchParams = {
+        type: ["Condo", "Single Family"],
+        hitsPerPage : 20,
+      };
       var ne = {lat:region.latitude - region.latitudeDelta / 2,
                 lng:region.longitude - region.longitudeDelta / 2};
       var sw = {lat:region.latitude + region.latitudeDelta / 2,
@@ -66,14 +59,14 @@ class HomeMapView extends Component {
   }
 
   onMapRegionChange(region) {
-    this.setState({ mapRegion:region });
+    // this.setState({ mapRegion:region });
+    this.setState({isPreviewVisible:false});
   }
 
   onMapRegionChangeComplete(region) {
-    // this.setState({ mapRegion:region });
+    this.setState({ mapRegion:region });
 
-    searchParams = defaultSearchParams;
-    searchParams = this.getSearchParam(searchParams, region);
+    let searchParams = this.getSearchParam(region);
     this.props.setSearchParams(searchParams);
 
     searchAlgolia(searchParams, (respArr, total) => {
@@ -81,19 +74,28 @@ class HomeMapView extends Component {
       })  
   }
   
+  onPressMapView() {
+  }
 
   onMapMarkerSelected(marker) {
+    this.props.setSelectedProperty(marker);
+    this.setState({isPreviewVisible:true});    
   }
 
   onClickDraw() {
+    this.setState({IsDraw:true});
   }
+
+  onClickDrawRemove() {
+    this.setState({IsDraw:false});
+  }
+  
 
   onClickCurrentPosition() {
-console.log("onClickCurrentPosition");    
-    this.getCurrentPosition();
+    this.setCurrentPosition();
   }
 
-  getCurrentPosition() {
+  setCurrentPosition() {
     if (Platform.OS === 'ios') {
       NativeModules.RNLocation.requestAlwaysAuthorization();
       NativeModules.RNLocation.startUpdatingLocation();
@@ -105,8 +107,10 @@ console.log("onClickCurrentPosition");
           latitudeDelta: 10,
           longitudeDelta: (10 * Metrics.screenWidth) / Metrics.screenHeight,
         };
-        this.setState({mapRegion:locationMe});
-        // this.onMapRegionChange(locationMe);
+
+        this.mapView && this.mapView.animateToRegion(locationMe);
+        // mapView.animateToCoordinate
+        // this.setState({mapRegion:locationMe});
       });
     } else {
       LocationServicesDialogBox.checkLocationServicesIsEnabled({
@@ -121,9 +125,9 @@ console.log("onClickCurrentPosition");
             latitudeDelta: 10,
             longitudeDelta: (10 * Metrics.screenWidth) / Metrics.screenHeight,
           };
-          // _this.props.setLocation(locationMe);
-          this.setState({mapRegion:locationMe});
-          // this.onMapRegionChange(locationMe);
+
+          this.mapView && this.mapView.animateToRegion(locationMe);
+          // this.setState({mapRegion:locationMe});
 
         },
         (error) => {
@@ -135,36 +139,120 @@ console.log("onClickCurrentPosition");
     }
   }  
 
-  render() {
-console.log("searchAlgolia");    
-console.log(this.props.algolia.properties);        
-//console.log(this.props.algolia.searchParams);        
+  getImagePath(item) {
+    mlsid = item.mlsid;
+    iterator = 1;
+    resolution = "420x210";
+    
+    return "https://i.palmettopark.net/" + mlsid + "-" + iterator + "-" + resolution + ".jpg"
+  }
 
+  renderPreivew() {
+    item = this.props.algolia.selectedProperty;
+    let featured = item.featured;
+    return (
+      <View style={styles.listItemContainer}>
+        <Image
+          style={styles.listItemContainer}
+          source={Images.imgPreviewLogo} />
+        <Image style={styles.listItemContainer}
+          onLoadStart={(e) => this.setState({loading: true})}
+          onLoadEnd={(e) => this.setState({loading: false})}
+          source={{ uri: this.getImagePath(item) }}>
+          {featured === true ?
+          <View style={styles.featureMark}>
+            <Text style={{ color: '#FFF' }}>FEATURED</Text>
+          </View> : null}
+          <View style={styles.listItemBottomArea}>
+            <View style={{ flex: 3 }}>
+              <View style={{ flex: 3, paddingLeft: 10 }}>
+                <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 18 }}>
+                  {priceShort(item.price)}
+                </Text>
+              </View>
+              <View style={{ flex: 5, flexDirection: 'row' }}>
+                <View style={{ flex: 4, justifyContent: 'space-between', paddingLeft: 10 }}>
+                  <Text
+                    style={[styles.bottomInfoDetailsDesc, { fontSize: 14 }]}
+                    numberOfLines={1}>
+                    {item.heading || item.beds + " Beds / " + item.baths_full + " Baths" }
+                  </Text>
+                  <Text
+                    style={[styles.bottomInfoDetailsDesc, { fontSize: 15 }]}
+                    numberOfLines={1}>
+                    {item.address}
+                  </Text>
+                </View>
+                <View style={{ flex: 3, flexDirection: 'row', paddingRight: 10 }}>
+                  <View style={[styles.bottomInfoFactorsArea, { flex: 4 }]}>
+                    <Text style={styles.bottomInfoFactorNumber}>
+                      {item.beds}
+                    </Text>
+                    <Text style={styles.bottomInfoFactorDesc}>
+                      Beds
+                    </Text>
+                  </View>
+                  <View style={[styles.bottomInfoFactorsArea, { flex: 4 }]}>
+                    <Text style={styles.bottomInfoFactorNumber}>
+                      {item.baths_full}
+                    </Text>
+                    <Text style={styles.bottomInfoFactorDesc}>
+                      Baths
+                    </Text>
+                  </View>
+                  <View style={[styles.bottomInfoFactorsArea, { flex: 5 }]}>
+                    <Text style={styles.bottomInfoFactorNumber}>
+                      {item.sqft}
+                    </Text>
+                    <Text style={styles.bottomInfoFactorDesc}>
+                      Sq.Ft.
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', 
+              backgroundColor: '#6A6A6A',  paddingHorizontal: 10}}>
+              <Text style={{ color: '#CCC', fontSize: 12 }}>
+                  {item.city + " * " + ( item.community ? item.community : "" ) }
+              </Text>
+              <Text style={{ color: '#FFF', fontSize: 12 }}>
+                4 days ago
+              </Text>
+            </View>
+          </View>
+        </Image>
+      </View>
+    );
+  }
+  
+
+  render() {
     return (
       <View style={styles.container}>
           <MapView
             provider={PROVIDER_GOOGLE}
             style={styles.map}
+            ref={ref => { this.mapView = ref; }}
             initialRegion = {this.state.mapRegion}
-            region = {this.state.mapRegion}
             onRegionChange={this.onMapRegionChange.bind(this)}            
-            onRegionChangeComplete={this.onMapRegionChangeComplete.bind(this)}            
+            onRegionChangeComplete={this.onMapRegionChangeComplete.bind(this)}    
+            onPress={this.onPressMapView.bind(this)}        
           >
             { this.props.algolia.properties !== null && 
               this.props.algolia.properties.map( marker => (
                 <MapView.Marker
                   key= {marker.objectID}
+                  onPress = {()=>this.onMapMarkerSelected(marker)}
                   coordinate={{
                   latitude: marker.locSearch[1],
                   longitude: marker.locSearch[0],
                   }}
-                  title={ priceShort(marker.price) }
-                  description={priceShort(marker.price) }
                 >
-                  <PriceMarker
-                    amount={priceShort(marker.price)}
-                    selected={this.onMapMarkerSelected.bind(this)}
-                  />
+                    <PriceMarker
+                      amount={priceShort(marker.price)}
+                      data = {marker}
+                    />
                 </MapView.Marker>
                 
               ))}          
@@ -172,13 +260,33 @@ console.log(this.props.algolia.properties);
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.bubble}
               onPress={ this.onClickDraw.bind(this)}>
-                <Text>D</Text>
+                <Image
+                  style={styles.image}
+                  resizeMode={'contain'}
+                  source={Icons.pencil} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.bubble}
               onPress={ this.onClickCurrentPosition.bind(this)}>
-                <Text>P</Text>
+                <Image
+                  style={styles.image}
+                  resizeMode={'contain'}
+                  source={Icons.location} />
             </TouchableOpacity>
           </View>
+          {
+            this.state.IsDraw && (
+              <View style={styles.drawContainer}>
+                <TouchableOpacity style={styles.drawBubble}
+                  onPress={ this.onClickDrawRemove.bind(this)}>
+                  <Text>Remove</Text>
+                </TouchableOpacity>
+              </View>
+            )
+          }
+
+          {
+            this.state.isPreviewVisible ? this.renderPreivew() : null
+          }
       </View>
           
     );
@@ -202,6 +310,7 @@ function mapDispatchToProps(dispatch) {
 
     setSearchParams: searchParams => dispatch(setSearchParams(searchParams)),
     setProperies : properties => dispatch(setProperies(properties)),
+    setSelectedProperty : selectedProperty => dispatch(setSelectedProperty(selectedProperty)),
   };
 }
 
@@ -210,40 +319,5 @@ function mapStateToProps(state) {
   const algolia = state.get('algolia');
   return { globals, algolia };
 }
-
-const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
-
-  buttonContainer: {
-    position:'absolute',
-    flexDirection: 'column',
-    backgroundColor: 'transparent',
-    height: 100,
-    right:30,
-    bottom:30,
-  },
-
-  bubble: {
-    flex: 1,
-    alignItems:'center',
-    justifyContent:'center',
-    backgroundColor: 'rgba(255,255,255,0.7)',
-    // paddingHorizontal: 18,
-    // paddingVertical: 12,
-    width: 50,
-    height: 50,
-    borderRadius: 5,
-    marginBottom:1,
-  },    
-});
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeMapView);

@@ -11,26 +11,41 @@ import { Styles, Colors, Fonts, Metrics } from '@theme/';
 import CommonWidgets from '@components/CommonWidgets';
 import Constants from '@src/constants';
 import Utils from '@src/utils';
-import styles from '../styles';
 
 import SearchBar from '@components/SearchBar';
 
+import {searchAlgolia, priceShort} from '@api/algoliaAPI';
+import { setCommunities, setSearchParams, setSelectedProperty } from '@actions/algolia';
+import { Icons, Images } from '@theme';
+import styles from './styles';
 
 class Search extends Component {
   
   constructor(props) {
     super(props);
     this.state = {
-      searchKeyword: '',      
+      searchKeyword: 'conv',      
     };
   }
 
+  componentWillMount() {
+    this.onSearchKeywordInputChange(this.state.searchKeyword);
+  }
+
+  getSearchParam(text) {
+    let searchParams = {
+      communities : ["Any"],
+      query:text,         
+      hitsPerPage : 20,
+    };
+
+    return searchParams;
+  }
+
   onClickFilter() {
-    console.log('On Focus');
   }
 
   onRemoveFilter() {
-    console.log('On Remove');
   }
 
   onClickCancel() {
@@ -39,6 +54,16 @@ class Search extends Component {
 
   onSearchKeywordInputChange(keyword) {
     this.setState({ searchKeyword: keyword });
+
+    let searchParams = this.getSearchParam(this.state.searchKeyword);
+
+console.log("searchParams");
+console.log(searchParams);
+    this.props.setSearchParams(searchParams);
+        searchAlgolia(searchParams, (respArr, total) => {
+console.log(respArr);
+        this.props.setCommunities(respArr);//properties;
+      })  
   }
   
 
@@ -84,6 +109,7 @@ class Search extends Component {
           <SearchBar
             onSearchChange={this.onSearchKeywordInputChange.bind(this)}
             height={20}
+            focus = {true}
             width={Metrics.screenWidth * 0.65}
             onFocus={() =>{this.onClickFilter()}}
             onClose={() =>{this.onRemoveFilter()}}
@@ -112,12 +138,18 @@ function mapDispatchToProps(dispatch) {
     dispatch,
     replaceRoute: route => dispatch(replaceRoute(route)),
     setSpinnerVisible: spinnerVisible => dispatch(setSpinnerVisible(spinnerVisible)),
+
+    setSearchParams: searchParams => dispatch(setSearchParams(searchParams)),
+    setCommunities : communties => dispatch(setCommunities(communties)),
+    setSelectedProperty : selectedProperty => dispatch(setSelectedProperty(selectedProperty)),
+    
   };
 }
 
 function mapStateToProps(state) {
   const globals = state.get('globals');
-  return { globals };
+  const algolia = state.get('algolia');
+  return { globals, algolia };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search);

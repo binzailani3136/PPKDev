@@ -3,28 +3,38 @@ import {
   StyleSheet,
   View,
   Text,
+  TouchableOpacity,
+  TouchableHighlight
 } from 'react-native';
 
 const propTypes = {
-  amount: PropTypes.number.isRequired,
+  amount: PropTypes.string.isRequired,
   fontSize: PropTypes.number,
+  data: PropTypes.object
 };
 
 const defaultProps = {
   fontSize: 13,
 };
 
+
 class PriceMarker extends React.Component {
+
+  onClick() {
+    console.log("PriceMarker");
+    // this.props.selected(this.props.data);
+  }
+
   render() {
-    const { fontSize, amount } = this.props;
+    const { fontSize, amount, selected, data } = this.props;
     return (
-      <View style={styles.container}>
-        <View style={styles.bubble}>
-          <Text style={[styles.amount, { fontSize }]}>{amount}</Text>
-        </View>
-        <View style={styles.arrowBorder} />
-        <View style={styles.arrow} />
-      </View>
+          <View style={styles.container}>
+            <View style={styles.bubble}>
+              <Text style={[styles.amount, { fontSize }]}>{amount}</Text>
+            </View>
+            <View style={styles.arrowBorder} />
+            <View style={styles.arrow} />
+          </View>
     );
   }
 }

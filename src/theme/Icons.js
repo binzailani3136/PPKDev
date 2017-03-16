@@ -4,6 +4,9 @@ const icons = {
   an10na: require('@assets/icons/icotab2.png'),
   watch: require('@assets/icons/icotab3.png'),
   share: require('@assets/icons/icotab4.png'),
+  pencil: require('@assets/icons/pencil.png'),
+  location: require('@assets/icons/location.png'),
+
 
   apples:[
     require('@assets/icons/icoapplered.png'),

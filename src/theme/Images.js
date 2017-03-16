@@ -22,6 +22,9 @@ const images = {
               require('@assets/images/intro/4/4.png')],
 
   imgSampleAvatar: require('@assets/images/imgSampleAvatar.png'),
+
+  imgPreviewLogo: require('@assets/images/darkbg.png'),
+  
 };
 
 export default images;

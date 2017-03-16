@@ -13,7 +13,7 @@ import CommonWidgets from '@components/CommonWidgets';
 import styles from '../styles';
 
 import SearchBar from '@components/SearchBarDisabled';
-import {searchAlgolia, defaultSearchParams, priceShort} from '@api/algoliaAPI';
+import {searchAlgolia, priceShort} from '@api/algoliaAPI';
 import PriceMarker from '@components/PriceMarker';
 
 import HomeMapView from '@containers/Main/HomeMapView';
@@ -80,7 +80,7 @@ class FindHome extends Component {
     return (
         <TouchableOpacity style={{ paddingBottom: 15}}
           onPress={ this.onClickMap.bind(this)}>
-          <Text>{this.state.isViewMode ? "Map" : "List"}</Text>
+          <Text>{this.state.isViewMode ? "List" : "Map"}</Text>
         </TouchableOpacity>
      );
   };  

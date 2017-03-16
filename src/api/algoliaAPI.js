@@ -131,8 +131,8 @@ export function searchAlgolia(searchParams, callBack) {
     }
 
     let respArr = [],
-      totalFound = 0,
-      readyFn = searchParams.communities ? 0 : 1;
+    totalFound = 0,
+    readyFn = searchParams.communities ? 0 : 1;
 
     if (searchParams.communities) {
       communities.search(tS, (err, content) => {
@@ -145,7 +145,7 @@ export function searchAlgolia(searchParams, callBack) {
             return hit;
           }));
           readyFn += 1;
-          if (readyFn == 2) { callBack(respArr, totalFound); }
+          if (readyFn == 2) { callBack(respArr, totalFound); return tS; }
         }
       });
     }
@@ -339,5 +339,47 @@ export var priceShort = function(price) {
 export function isInt(n) {
     return Number(n) === n && n % 1 === 0
 };
+
+export function timeAgo(time) {
+  var units = [{
+          name: "second",
+          limit: 60,
+          in_seconds: 1
+      }, {
+          name: "minute",
+          limit: 3600,
+          in_seconds: 60
+      }, {
+          name: "hour",
+          limit: 86400,
+          in_seconds: 3600
+      }, {
+          name: "day",
+          limit: 604800,
+          in_seconds: 86400
+      }, {
+          name: "week",
+          limit: 2629743,
+          in_seconds: 604800
+      }, {
+          name: "month",
+          limit: 31556926,
+          in_seconds: 2629743
+      }, {
+          name: "year",
+          limit: null,
+          in_seconds: 31556926
+      }];
+
+  diff = (new Date - new Date(1e3 * time)) / 1e3;
+
+  if (5 > diff) return "just now";
+
+  for (var unit, i = 0; unit = units[i++];)
+    if (diff < unit.limit || !unit.limit) {
+        var diff = Math.floor(diff / unit.in_seconds);
+        return diff + " " + unit.name + (diff > 1 ? "s" : "") + " ago"
+    }
+}
 
 
