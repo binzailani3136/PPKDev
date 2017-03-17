@@ -17,17 +17,13 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.1</string>
+	<string>1.0.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
-  <key>NSLocationWhenInUseUsageDescription</key>
-  <string>This is the plist item for NSLocationWhenInUseUsageDescription</string>
-  <key>NSLocationAlwaysUsageDescription</key>
-  <string>This is the plist item for NSLocationAlwaysUsageDescription</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -45,6 +41,8 @@
 	<string>PPK wants to access your media library.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>PPK wants to access your camera.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This is the plist item for NSLocationAlwaysUsageDescription</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>

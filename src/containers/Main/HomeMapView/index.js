@@ -17,12 +17,13 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import {searchAlgolia, priceShort} from '@api/algoliaAPI';
 import PriceMarker from '@components/PriceMarker';
 
-import { setProperies, setSearchParams, setSelectedProperty } from '@actions/algolia';
+import { setMainParams, setMainProperies, setSelectedProperty } from '@actions/algolia';
 import { Icons, Images } from '@theme';
 import styles from './styles';
 
 class HomeMapView extends Component {
   constructor(props) {
+
     super(props);
     this.state = {
       mapRegion: {
@@ -38,11 +39,16 @@ class HomeMapView extends Component {
   }
 
   componentWillMount() {
+console.log("componentWillMount");    
     this.onMapRegionChangeComplete(this.state.mapRegion)
   }
 
-  getSearchParam(region) {
+  onMapRegionChange(region) {
+    // this.setState({ mapRegion:region });
+    this.setState({isPreviewVisible:false});
+  }
 
+  getSearchParam(region) {
       let searchParams = {
         type: ["Condo", "Single Family"],
         hitsPerPage : 20,
@@ -58,19 +64,14 @@ class HomeMapView extends Component {
       return searchParams;
   }
 
-  onMapRegionChange(region) {
-    // this.setState({ mapRegion:region });
-    this.setState({isPreviewVisible:false});
-  }
-
   onMapRegionChangeComplete(region) {
     this.setState({ mapRegion:region });
 
     let searchParams = this.getSearchParam(region);
-    this.props.setSearchParams(searchParams);
+    this.props.setMainParams(searchParams);
 
     searchAlgolia(searchParams, (respArr, total) => {
-        this.props.setProperies(respArr);//properties;
+        this.props.setMainProperies(respArr);
       })  
   }
   
@@ -239,8 +240,8 @@ class HomeMapView extends Component {
             onRegionChangeComplete={this.onMapRegionChangeComplete.bind(this)}    
             onPress={this.onPressMapView.bind(this)}        
           >
-            { this.props.algolia.properties !== null && 
-              this.props.algolia.properties.map( marker => (
+            { this.props.algolia.mainProperties !== null && 
+              this.props.algolia.mainProperties.map( marker => (
                 <MapView.Marker
                   key= {marker.objectID}
                   onPress = {()=>this.onMapMarkerSelected(marker)}
@@ -308,8 +309,8 @@ function mapDispatchToProps(dispatch) {
     pushNewRoute: route => dispatch(pushNewRoute(route)),
     setSpinnerVisible: spinnerVisible => dispatch(setSpinnerVisible(spinnerVisible)),
 
-    setSearchParams: searchParams => dispatch(setSearchParams(searchParams)),
-    setProperies : properties => dispatch(setProperies(properties)),
+    setMainParams: mainParams => dispatch(setMainParams(mainParams)),
+    setMainProperies : mainProperties => dispatch(setMainProperies(mainProperties)),
     setSelectedProperty : selectedProperty => dispatch(setSelectedProperty(selectedProperty)),
   };
 }

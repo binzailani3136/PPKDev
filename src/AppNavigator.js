@@ -93,9 +93,14 @@ class AppNavigator extends Component {
           ref={(ref) => { this._navigator = ref; }}
           configureScene={(route) => {
             const id = route.id;
-            if (id === 'splash' || id === 'login' || id === 'register'  || id === 'search')
+            if(id === 'splash' || id === 'login' || id === 'register'  || id === 'search'){
               return Navigator.SceneConfigs.FadeAndroid;
-            return Navigator.SceneConfigs.PushFromRight;
+            }
+            else if( id === 'filter') {
+              return Navigator.SceneConfigs.FloatFromBottom;              
+            }
+            else
+              return Navigator.SceneConfigs.PushFromRight;
           }}
           initialRoute={{ id: 'main' }}
           renderScene={this.renderScene.bind(this)}

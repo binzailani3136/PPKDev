@@ -4,6 +4,38 @@ const schools = algoliasearch.initIndex('schools');
 const cities = algoliasearch.initIndex('cities');
 const communities = algoliasearch.initIndex('communities');
 
+export function searchPropertyWithAlgolia(params, callBack) {
+  if(properties) {
+    properties.search(params, (err, content) => {
+      callBack(content.hits, err);
+    });
+  }
+}
+
+export function searchSchoolWithAlgolia(params, callBack) {
+  if(schools) {
+    schools.search(params, (err, content) => {
+      callBack(content.hits, err);
+    });
+  }
+}
+
+export function searchCommunityWithAlgolia(params, callBack) {
+  if(communities) {
+    communities.search(params, (err, content) => {
+      callBack(content.hits, err);
+    });
+  }
+}
+
+export function searchCityWithAlgolia(params, callBack) {
+  if(cities) {
+    cities.search(params, (err, content) => {
+      callBack(content.hits, err);
+    });
+  }
+}
+
 export function searchAlgolia(searchParams, callBack) {
 
     let numericfilters = [],
@@ -116,39 +148,39 @@ export function searchAlgolia(searchParams, callBack) {
 
     tS.hitsPerPage = searchParams.hitsPerPage;
 
-      // if( viewProp != true ) {
-      //     history.pushState("", "", window.location.pathname + "?" + tjq.param(searchParams));
-      // }
+// //      $rootScope.searchedCommunity = "";
+//     if (searchParams.community && searchParams.city) {
+// //           $http.get("/community/search/details/?community=" + searchParams.community + "&city=" + searchParams.city)
+// //               .success(function(community) {
 
-//      $rootScope.searchedCommunity = "";
-    if (searchParams.community && searchParams.city) {
-//           $http.get("/community/search/details/?community=" + searchParams.community + "&city=" + searchParams.city)
-//               .success(function(community) {
+// // //                $rootScope.searchedCommunity = community
+// //                   console.log(community);
+// //               });
+//     }
 
-// //                $rootScope.searchedCommunity = community
-//                   console.log(community);
-//               });
-    }
+    let respArr = [];
+    let totalFound = 0;
+    let readyFn = searchParams.communities ? 0 : 1;
 
-    let respArr = [],
-    totalFound = 0,
-    readyFn = searchParams.communities ? 0 : 1;
+    // if (searchParams.communities) {
+    //   communities.search(tS, (err, content) => {
+    //     if (err == null) {
+    //     // if (err != true) {
+    //       totalFound += content.nbHits || 0;
 
-    if (searchParams.communities) {
-      communities.search(tS, (err, content) => {
-        if (err == null) {
-        // if (err != true) {
-          totalFound += content.nbHits || 0;
+    //       respArr = respArr.concat(content.hits.map((hit) => {
+    //         hit.isCommunity = !0;
+    //         return hit;
+    //       }));
 
-          respArr = respArr.concat(content.hits.map((hit) => {
-            hit.isCommunity = !0;
-            return hit;
-          }));
-          readyFn += 1;
-          if (readyFn == 2) { callBack(respArr, totalFound); return tS; }
-        }
-      });
-    }
+    //       readyFn += 1;
+    //       if (readyFn == 2) { 
+    //         callBack(respArr, totalFound); return tS; 
+    //       }
+
+    //     }
+    //   });
+    // }
 
     properties.search(tS, (err, content) => {
       // if (err != true) {
@@ -157,11 +189,9 @@ export function searchAlgolia(searchParams, callBack) {
 
         readyFn += 1;
         respArr = respArr.concat(content.hits);
-        if (readyFn == 2) { callBack(respArr, totalFound); }
+        if (readyFn == 2) { callBack(respArr, err); }
       }
     });
-
-    return tS;  
 }
 
 export var types = {

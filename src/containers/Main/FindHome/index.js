@@ -46,15 +46,21 @@ class FindHome extends Component {
   }
 
   onClickFilter() {
-    console.log('On Focus');
+    this.props.navigator.push({
+      id: 'filter',
+      passProps: {
+      },
+    });
+  }
 
-    //pushNewRoute
+  onClickSearch() {
     this.props.navigator.push({
       id: 'search',
       passProps: {
       },
     });
   }
+  
 
   onRemoveFilter() {
     console.log('On Remove');
@@ -122,12 +128,12 @@ class FindHome extends Component {
             alignItems: 'center' }}>
 
         <TouchableOpacity
-          onPress={ this.onClickFilter.bind(this)}>
+          onPress={ this.onClickSearch.bind(this)}>
           <SearchBar
             onSearchChange={this.onSearchKeywordInputChange.bind(this)}
             height={20}
             width={Metrics.screenWidth * 0.65}
-            onFocus={() =>{this.onClickFilter()}}
+            onFocus={() =>{this.onClickSearch()}}
             onClose={() =>{this.onRemoveFilter()}}
             onBlur={() => console.log('On Blur')}
             placeholder={'City, Community, School'}

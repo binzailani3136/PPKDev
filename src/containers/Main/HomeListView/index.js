@@ -13,10 +13,8 @@ import Constants from '@src/constants';
 import Utils from '@src/utils';
 import styles from './styles';
 
-import { setProperies } from '@actions/algolia';
 import {priceShort} from '@api/algoliaAPI';
-
-
+import { Icons, Images } from '@theme';
 
 class HomeListView extends Component {
   
@@ -38,7 +36,8 @@ class HomeListView extends Component {
   renderListItem(item, index) {
     let featured = item.featured;
     return (
-      <Image style={styles.listItemContainer} key={index}
+    <View style={styles.listItemContainer} key={index}>
+      <Image style={styles.listItemContainer}
         source={{ uri: this.getImagePath(item) }}>
         {featured === true ?
         <View style={styles.featureMark}>
@@ -103,18 +102,19 @@ class HomeListView extends Component {
           </View>
         </View>
       </Image>
+    </View>
     );
   }
 
   render() {
 console.log("HomeListView")
-console.log(this.props.algolia.properties)
+console.log(this.props.algolia.mainProperties)
     
     return (
       <View style={Styles.listContainer}>
         <ScrollView style={{ flex: 1, width: Metrics.screenWidth }}>
-          { this.props.algolia.properties !== null && 
-            this.props.algolia.properties.map((item, index) => (
+          { this.props.algolia.mainProperties !== null && 
+            this.props.algolia.mainProperties.map((item, index) => (
             this.renderListItem(item, index)
            ))}
         </ScrollView>
@@ -135,8 +135,6 @@ function mapDispatchToProps(dispatch) {
     dispatch,
     replaceRoute: route => dispatch(replaceRoute(route)),
     setSpinnerVisible: spinnerVisible => dispatch(setSpinnerVisible(spinnerVisible)),
-
-    setProperies : properties => dispatch(setProperies(properties)),
   };
 }
 
