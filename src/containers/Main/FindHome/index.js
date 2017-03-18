@@ -10,7 +10,7 @@ import { setSpinnerVisible } from '@actions/globals';
 import SliderPanel from '@components/SliderPanel';
 import { Styles, Colors, Fonts, Metrics } from '@theme/';
 import CommonWidgets from '@components/CommonWidgets';
-import styles from '../styles';
+import styles from './styles';
 
 import SearchBar from '@components/SearchBarDisabled';
 import {searchAlgolia, priceShort} from '@api/algoliaAPI';

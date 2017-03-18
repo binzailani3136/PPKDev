@@ -346,6 +346,9 @@ export var dict = {
   },
 };
 
+export function isInt(n) {
+    return Number(n) === n && n % 1 === 0
+};
 export var translate = function(text) {
     return dict[window.currentLocale][text] || text
 };
@@ -363,53 +366,39 @@ export var numberComma = function(num) {
 export var short_price = function(price) {
     return isInt(price) ? price : parseFloat(price.toFixed(2))
 };
-export var priceShort = function(price) {
-    return price ? 2e4 > price ? "$" + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : price >= 1e6 ? "$" + short_price(price / 1e6) + "M" : "$" + Math.round(price / 1e3) + "k" : void 0
-};
-export function isInt(n) {
-    return Number(n) === n && n % 1 === 0
-};
-
-export function timeAgo(time) {
-  var units = [{
-          name: "second",
-          limit: 60,
-          in_seconds: 1
-      }, {
-          name: "minute",
-          limit: 3600,
-          in_seconds: 60
-      }, {
-          name: "hour",
-          limit: 86400,
-          in_seconds: 3600
-      }, {
-          name: "day",
-          limit: 604800,
-          in_seconds: 86400
-      }, {
-          name: "week",
-          limit: 2629743,
-          in_seconds: 604800
-      }, {
-          name: "month",
-          limit: 31556926,
-          in_seconds: 2629743
-      }, {
-          name: "year",
-          limit: null,
-          in_seconds: 31556926
-      }];
-
-  diff = (new Date - new Date(1e3 * time)) / 1e3;
-
-  if (5 > diff) return "just now";
-
-  for (var unit, i = 0; unit = units[i++];)
-    if (diff < unit.limit || !unit.limit) {
-        var diff = Math.floor(diff / unit.in_seconds);
-        return diff + " " + unit.name + (diff > 1 ? "s" : "") + " ago"
+export var priceShort = function(price){
+    if (!price) return
+    price = parseInt(price);
+    if (price < 20000) {
+        return '$' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    }else if (price >= 1000000){
+        return '$' + short_price(price/1000000) + 'M'
+    }else{
+        return '$' +  Math.round(price/1000) + 'k'
     }
-}
+};
+
+export function timeAgo(time){
+    if (!time) return ''
+    var units = [
+        { name: "second", limit: 60, in_seconds: 1 },
+        { name: "minute", limit: 3600, in_seconds: 60 },
+        { name: "hour", limit: 86400, in_seconds: 3600  },
+        { name: "day", limit: 604800, in_seconds: 86400 },
+        { name: "week", limit: 2629743, in_seconds: 604800  },
+        { name: "month", limit: 31556926, in_seconds: 2629743 },
+        { name: "year", limit: null, in_seconds: 31556926 }
+    ];
+    var diff = (new Date() - new Date(time*1000)) / 1000;
+    if (diff < 5) return "just now";
+
+    var i = 0, unit;
+    while (unit = units[i++]) {
+        if (diff < unit.limit || !unit.limit){
+            var diff =  Math.floor(diff / unit.in_seconds);
+            return diff + " " + unit.name + (diff>1 ? "s" : "") + ' ago';
+        }
+    };
+};
 
 

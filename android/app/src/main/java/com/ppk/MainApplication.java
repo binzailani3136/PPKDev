@@ -3,6 +3,7 @@ package com.ppk;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.rnfs.RNFSPackage;
 import com.showlocationservicesdialogbox.LocationServicesDialogBoxPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
@@ -31,6 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFSPackage(),
             new LocationServicesDialogBoxPackage(),
             new VectorIconsPackage(),
             new RNSpinkitPackage(),
