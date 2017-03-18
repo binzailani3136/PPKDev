@@ -20,6 +20,8 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 
+import com.zyu.ReactNativeWheelPickerPackage;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -31,7 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
+            new MainReactPackage(),
             new RNFSPackage(),
             new LocationServicesDialogBoxPackage(),
             new VectorIconsPackage(),
@@ -40,7 +42,8 @@ public class MainApplication extends Application implements ReactApplication {
             new ImageResizerPackage(),
             new ImagePickerPackage(),
             new ReactNativeI18n(),
-            new MapsPackage()
+            new MapsPackage(),
+            new ReactNativeWheelPickerPackage()
       );
     }
   };

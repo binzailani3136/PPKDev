@@ -34,6 +34,7 @@
     "react-native-spinkit": "^1.0.2",
     "react-native-swiper": "git+https://github.com/FuYaoDe/react-native-swiper.git",
     "react-native-vector-icons": "^4.0.0",
+    "react-native-wheel-picker": "^1.1.1",
     "react-redux": "^5.0.3",
     "redux": "^3.6.0",
     "redux-immutable": "^3.1.0",
