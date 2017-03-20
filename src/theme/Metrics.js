@@ -8,7 +8,7 @@ const metrics = {
   searchBarHeight: 30,
   screenWidth: width < height ? width : height,
   screenHeight: screenHeightTmp,
-  navBarHeight: 60,
+  navBarHeight: 70,
   tabHeight: 50,
   defaultMargin: 10,
   defaultPadding: 10,

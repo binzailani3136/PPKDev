@@ -41,9 +41,9 @@ const CommonWidgets = {
       </View>
     );
   },
-  renderSpacer() {
+  renderSpacer(cnt) {
     return (
-      <View style={{ height: Metrics.screenHeight / 40 }} />
+      <View style={{ height: (Metrics.screenHeight / 40) * cnt }} />
     );
   },
   renderLogo() {

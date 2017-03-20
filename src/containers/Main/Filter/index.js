@@ -16,6 +16,8 @@ import styles from '../styles';
 import Picker from 'react-native-wheel-picker'
 var PickerItem = Picker.Item;
 
+import SegmentedControlTab from 'react-native-segmented-control-tab'
+
 const itemsOfPrice = [
         {caption:"Any", value:0},
         {caption:"$100,000", value:100000},
@@ -41,6 +43,52 @@ const itemsOfPrice = [
         {caption:"$2,000,000", value:2000000},
       ];     
 
+const itemsOfRoom = [
+        {caption:"1+", value:1},
+        {caption:"2+", value:2},
+        {caption:"3+", value:3},
+        {caption:"4+", value:4},
+        {caption:"5+", value:5},
+        {caption:"6+", value:6},
+      ];     
+      
+const itemsOfSqFtFrom = [
+        {caption:"Min", value:0},
+        {caption:"700", value:700},
+        {caption:"1,000", value:1000},
+        {caption:"1,200", value:1000},
+        {caption:"1,500", value:1000},
+        {caption:"1,800", value:1000},
+        {caption:"2,000", value:1000},
+        {caption:"2,200", value:1000},
+        {caption:"2,400", value:1000},
+        {caption:"3,000", value:1000},
+        {caption:"4,000", value:1000},
+        {caption:"5,000", value:1000},
+        {caption:"6,000", value:1000},
+        {caption:"10,000", value:1000},
+        {caption:"20,000", value:1000},
+      ];     
+
+const itemsOfSqFtTo = [
+        {caption:"Max", value:3000000},
+        {caption:"700", value:700},
+        {caption:"1,000", value:1000},
+        {caption:"1,200", value:1000},
+        {caption:"1,500", value:1000},
+        {caption:"1,800", value:1000},
+        {caption:"2,000", value:1000},
+        {caption:"2,200", value:1000},
+        {caption:"2,400", value:1000},
+        {caption:"3,000", value:1000},
+        {caption:"4,000", value:1000},
+        {caption:"5,000", value:1000},
+        {caption:"6,000", value:1000},
+        {caption:"10,000", value:1000},
+        {caption:"20,000", value:1000},
+      ];     
+      
+
 class Filter extends Component {
   
   constructor(props) {
@@ -50,6 +98,16 @@ class Filter extends Component {
       itemsOfPriceFrom: itemsOfPrice,
       selectedItemOfPriceTo: 0,
       itemsOfPriceTo: itemsOfPrice,
+
+      selectedItemOfBeds: 2,
+      itemsOfBeds: itemsOfRoom,
+      selectedItemOfBaths: 1,
+      itemsOfBaths: itemsOfRoom,
+
+      selectedItemOfSqFtFrom: 0,
+      itemsOfSqFtFrom: itemsOfSqFtFrom,
+      selectedItemOfSqFtTo: 0,
+      itemsOfSqFtTo: itemsOfSqFtTo,
     };
   }
 
@@ -68,9 +126,6 @@ class Filter extends Component {
   getPriceState() {
     let state = "";
 
-  console.log(this.state.itemsOfPriceTo[this.state.selectedItemOfPriceTo]);
-  console.log(this.state.itemsOfPriceFrom[this.state.selectedItemOfPriceFrom]);
-  
     if( this.state.selectedItemOfPriceFrom == 0 && this.state.selectedItemOfPriceTo != 0 ) {
       state = " - " +
               this.state.itemsOfPriceTo[this.state.selectedItemOfPriceTo].caption
@@ -94,6 +149,58 @@ class Filter extends Component {
     return state; 
   }
 
+  onTabPressBeds(index) {
+    this.setState({
+      selectedItemOfBeds: index,
+    })
+  }
+
+  onTabPressBaths(index) {
+    this.setState({
+      selectedItemOfBaths: index,
+    })
+  }
+
+  onChangeSqFtFrom(index) {
+    this.setState({
+      selectedItemOfSqFtFrom: index,
+    })
+  }
+
+  onChangeSqFtTo(index) {
+    this.setState({
+      selectedItemOfSqFtTo: index,
+    })
+  }
+
+  getSqFtState() {
+    let state = "";
+
+    if( this.state.selectedItemOfSqFtFrom == 0 && this.state.selectedItemOfSqFtTo != 0 ) {
+      state = " - " +
+              this.state.itemsOfSqFtTo[this.state.selectedItemOfSqFtTo].caption
+
+    }
+    else if( this.state.selectedItemOfSqFtFrom != 0 && this.state.selectedItemOfSqFtTo == 0 ) {
+      state = this.state.itemsOfSqFtFrom[this.state.selectedItemOfSqFtFrom].caption + 
+              " + "
+
+    }
+    else if( this.state.selectedItemOfSqFtFrom == 0 && this.state.selectedItemOfSqFtTo == 0 ) {
+      state = "No limit";
+    }
+    else{
+      state = this.state.itemsOfSqFtFrom[this.state.selectedItemOfSqFtFrom].caption + 
+              " - " +
+              this.state.itemsOfSqFtTo[this.state.selectedItemOfSqFtTo].caption
+
+    }
+
+    return state; 
+  }
+  
+  
+
   onClickCancel() {
     this.props.navigator.pop();
   }
@@ -106,7 +213,7 @@ class Filter extends Component {
     return (
         <TouchableOpacity style={{paddingBottom: 15}}
           onPress={ this.onClickCancel.bind(this)}>
-          <Text>Cancel</Text>
+          <Text style={{color:'black'}}>Cancel</Text>
         </TouchableOpacity>
      );
   };  
@@ -115,11 +222,10 @@ class Filter extends Component {
     return (
         <TouchableOpacity style={{ paddingBottom: 15}}
           onPress={ this.onClickApply.bind(this)}>
-          <Text>Apply</Text>
+          <Text style={{color:'black'}}>Apply</Text>
         </TouchableOpacity>
      );
   };  
-  
 
   render() {
     return (
@@ -133,27 +239,29 @@ class Filter extends Component {
           tintColor={Colors.brandSecondary} />
 
         <View style={[Styles.listContainer, { flex: 1, }]}>
-          <ScrollView style={{ flex: 1, margin: 20 }}>
+          <ScrollView style={{ flex: 1, padding: 20 }}>
+
             <View style={{flexDirection:'row', 
                           height:30, 
                           justifyContent:'space-between',
                           borderColor:"#D0D0D0",  
                           borderBottomWidth:1}}>
               <View style={{justifyContent:'center'}}>
-                <Text style={{fontSize:18}}>
+                <Text style={{fontSize:18, color:'black'}}>
                   Price
                 </Text>
               </View>
               <View style={{justifyContent:'center'}}>
-                <Text style={{fontSize:15}}>
+                <Text style={{fontSize:15, color:'black'}}>
                   {this.getPriceState()}
                 </Text>
               </View>
             </View>
+
             <View style={{flexDirection:'row', 
-                          height:100, 
+                          height:200, 
                           justifyContent:'space-between'}}>
-              <Picker style={{width: Metrics.screenWidth * 0.4, height: 100}}
+              <Picker style={{width: Metrics.screenWidth * 0.4, height: 200}}
                 selectedValue={this.state.selectedItemOfPriceFrom}
                 itemStyle={{color:"#000", fontSize:20}}
                 onValueChange={(index) => this.onChangePriceFrom(index)}>
@@ -161,7 +269,7 @@ class Filter extends Component {
                     <PickerItem label={item.caption} value={i} key={i}/>
                   ))}
               </Picker>
-              <Picker style={{width: Metrics.screenWidth * 0.4, height: 100}}
+              <Picker style={{width: Metrics.screenWidth * 0.4, height: 200}}
                 selectedValue={this.state.selectedItemOfPriceTo}
                 itemStyle={{color:"#000", fontSize:20}}
                 onValueChange={(index) => this.onChangePriceTo(index)}>
@@ -169,11 +277,94 @@ class Filter extends Component {
                     <PickerItem label={item.caption} value={i} key={i}/>
                   ))}
               </Picker>
-              
             </View>
-          </ScrollView>
-          
 
+            {CommonWidgets.renderSpacer(1)}
+            <View style={{flexDirection:'row', 
+                          height:30, 
+                          justifyContent:'flex-start',
+                          borderColor:"#D0D0D0",  
+                          borderBottomWidth:1}}>
+              <View style={{justifyContent:'center'}}>
+                <Text style={{fontSize:18, color:'black'}}>
+                  Beds
+                </Text>
+              </View>
+            </View>
+            {CommonWidgets.renderSpacer(1)}
+            <SegmentedControlTab
+                values={[this.state.itemsOfBeds[0].caption,
+                        this.state.itemsOfBeds[1].caption,
+                        this.state.itemsOfBeds[2].caption,
+                        this.state.itemsOfBeds[3].caption,
+                        this.state.itemsOfBeds[4].caption,
+                        this.state.itemsOfBeds[5].caption, ]}
+                selectedIndex = {this.state.selectedItemOfBeds}
+                onTabPress={this.onTabPressBeds.bind(this)} />            
+            {CommonWidgets.renderSpacer(1)}
+            <View style={{flexDirection:'row', 
+                          height:30, 
+                          justifyContent:'flex-start',
+                          borderColor:"#D0D0D0",  
+                          borderBottomWidth:1}}>
+              <View style={{justifyContent:'center'}}>
+                <Text style={{fontSize:18, color:'black'}}>
+                  Baths
+                </Text>
+              </View>
+            </View>
+            {CommonWidgets.renderSpacer(1)}
+            <SegmentedControlTab
+                values={[this.state.itemsOfBaths[0].caption,
+                        this.state.itemsOfBaths[1].caption,
+                        this.state.itemsOfBaths[2].caption,
+                        this.state.itemsOfBaths[3].caption,
+                        this.state.itemsOfBaths[4].caption,
+                        this.state.itemsOfBaths[5].caption, ]}
+                selectedIndex = {this.state.selectedItemOfBaths}
+                onTabPress={this.onTabPressBaths.bind(this)} />            
+
+
+            {CommonWidgets.renderSpacer(1)}
+            <View style={{flexDirection:'row', 
+                          height:30, 
+                          justifyContent:'space-between',
+                          borderColor:"#D0D0D0",  
+                          borderBottomWidth:1}}>
+              <View style={{justifyContent:'center'}}>
+                <Text style={{fontSize:18, color:'black'}}>
+                  Sq. Ft.
+                </Text>
+              </View>
+              <View style={{justifyContent:'center'}}>
+                <Text style={{fontSize:15, color:'black'}}>
+                  {this.getSqFtState()}
+                </Text>
+              </View>
+            </View>
+
+            <View style={{flexDirection:'row', 
+                          height:200, 
+                          justifyContent:'space-between'}}>
+              <Picker style={{width: Metrics.screenWidth * 0.4, height: 200}}
+                selectedValue={this.state.selectedItemOfSqFtFrom}
+                itemStyle={{color:"#000", fontSize:20}}
+                onValueChange={(index) => this.onChangeSqFtFrom(index)}>
+                  {this.state.itemsOfSqFtFrom.map((item, i) => (
+                    <PickerItem label={item.caption} value={i} key={i}/>
+                  ))}
+              </Picker>
+              <Picker style={{width: Metrics.screenWidth * 0.4, height: 200}}
+                selectedValue={this.state.selectedItemOfSqFtTo}
+                itemStyle={{color:"#000", fontSize:20}}
+                onValueChange={(index) => this.onChangeSqFtTo(index)}>
+                  {this.state.itemsOfSqFtTo.map((item, i) => (
+                    <PickerItem label={item.caption} value={i} key={i}/>
+                  ))}
+              </Picker>
+            </View>
+
+          </ScrollView>
 
         </View>
       </View>

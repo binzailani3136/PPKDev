@@ -30,6 +30,7 @@
     "react-native-material-kit": "^0.4.1",
     "react-native-navbar": "^1.6.2",
     "react-native-scrollable-tab-view": "^0.7.2",
+    "react-native-segmented-control-tab": "^2.0.1",
     "react-native-simple-store": "^1.1.0",
     "react-native-spinkit": "^1.0.2",
     "react-native-swiper": "git+https://github.com/FuYaoDe/react-native-swiper.git",

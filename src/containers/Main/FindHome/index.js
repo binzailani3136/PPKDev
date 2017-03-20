@@ -86,7 +86,7 @@ class FindHome extends Component {
     return (
         <TouchableOpacity style={{ paddingBottom: 15}}
           onPress={ this.onClickMap.bind(this)}>
-          <Text>{this.state.isViewMode ? "List" : "Map"}</Text>
+          <Text style={{color:'black'}}>{this.state.isViewMode ? "List" : "Map"}</Text>
         </TouchableOpacity>
      );
   };  
@@ -95,7 +95,7 @@ class FindHome extends Component {
     return (
         <TouchableOpacity style={{ paddingBottom: 15}}
           onPress={ this.onClickFilter.bind(this)}>
-          <Text>Filter</Text>
+          <Text style={{color:'black'}}>Filter</Text>
         </TouchableOpacity>
      );
   };  
