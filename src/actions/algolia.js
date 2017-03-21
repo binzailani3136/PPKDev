@@ -5,12 +5,15 @@ export const setMainParams = mainParams =>
 
 export const setMainProperies = mainProperties =>
   ({ type: Types.SET_ALGOLIA_MAIN_PROPERTIES, mainProperties });
-
 export const setSelectedProperty = selectedProperty =>
   ({ type: Types.SET_ALGOLIA_SELECTEDPROPERTY, selectedProperty });
-
 export const setSearchParams = searchParams =>
   ({ type: Types.SET_ALGOLIA_SEARCH_PARAMS, searchParams });
+export const setMapRegion = mapRegion =>
+  ({ type: Types.SET_ALGOLIA_MAPREGION, mapRegion });
+
+export const setFilters = filters =>
+  ({ type: Types.SET_ALGOLIA_FILTERS, filters });
 
 export const setSearchCommunities = searchCommunities =>
   ({ type: Types.SET_ALGOLIA_SEARCH_COMMUNITIES, searchCommunities });

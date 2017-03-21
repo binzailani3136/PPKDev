@@ -18,11 +18,13 @@ import LocationServicesDialogBox from "react-native-android-location-services-di
 import {searchAlgolia, priceShort} from '@api/algoliaAPI';
 import PriceMarker from '@components/PriceMarker';
 
-import { setMainParams, setMainProperies, setSelectedProperty } from '@actions/algolia';
+import { setMainParams, setMainProperies, setSelectedProperty, setMapRegion } from '@actions/algolia';
 import { Icons, Images } from '@theme';
 import styles from './styles';
 
 import PropertyPreviewItem from '@components/PropertyPreviewItem';
+import {itemsOfPrice, itemsOfRoom, itemsOfSqFtFrom, itemsOfSqFtTo} from '@api/algoliaAPI';
+
 
 
 class HomeMapView extends Component {
@@ -30,20 +32,21 @@ class HomeMapView extends Component {
 
     super(props);
     this.state = {
-      mapRegion: {
-          latitude: 38.138928192103855,
-          longitude: -80.53564663281253,
-          latitudeDelta: 10,//Zoom of Map = 20
-          longitudeDelta: (10 * Metrics.screenWidth) / Metrics.screenHeight,
-        },      
-
       IsDraw: false,
       isPreviewVisible: false,
     };
   }
 
   componentWillMount() {
-    this.onMapRegionChangeComplete(this.state.mapRegion)
+    this.SearchPropertiesByAlgolia(this.props.algolia.mapRegion,
+                                    this.props.algolia.filters);
+  }
+
+  componentWillReceiveProps(nextProps){
+    if( JSON.stringify(nextProps.algolia.filters) != JSON.stringify(this.props.algolia.filters) ){
+      this.SearchPropertiesByAlgolia(this.props.algolia.mapRegion,
+                                      nextProps.algolia.filters);
+    }
   }
 
   onMapRegionChange(region) {
@@ -51,7 +54,7 @@ class HomeMapView extends Component {
     this.setState({isPreviewVisible:false});
   }
 
-  getSearchParam(region) {
+  getSearchParam(region, filter) {
       let searchParams = {
         type: ["Condo", "Single Family"],
         hitsPerPage : 20,
@@ -60,22 +63,55 @@ class HomeMapView extends Component {
                 lng:region.longitude - region.longitudeDelta / 2};
       var sw = {lat:region.latitude + region.latitudeDelta / 2,
                 lng:region.longitude + region.longitudeDelta / 2};
-      strInsideBoundingBox = ne.lat + "," + ne.lng + "," + sw.lat + "," + sw.lng;
+      var strInsideBoundingBox = ne.lat + "," + ne.lng + "," + sw.lat + "," + sw.lng;
       
       searchParams.insideBoundingBox = strInsideBoundingBox;
+
+      if(filter != null) {
+        searchParams['beds'] = itemsOfRoom[filter.beds].value;
+        searchParams['baths_full'] = itemsOfRoom[filter.baths_full].value;
+
+        if( filter.price.from != 0 ){//Any
+          if( searchParams['price'] == null )
+            searchParams['price'] = [];
+          searchParams['price'].from = itemsOfPrice[filter.price.from].value;
+        }
+        if( filter.price.to != 0 ) {
+          if( searchParams['price'] == null )
+            searchParams['price'] = [];
+          searchParams['price'].to = itemsOfPrice[filter.price.to].value;
+        }
+
+        if( filter.sqft.from != 0 ){
+          if( searchParams['sqft'] == null )
+            searchParams['sqft'] = [];
+          searchParams['sqft'].from = itemsOfSqFtFrom[filter.sqft.from].value;
+        }
+        if( filter.sqft.to != 0 ){
+          if( searchParams['sqft'] == null )
+            searchParams['sqft'] = [];
+          searchParams['sqft'].to = itemsOfSqFtTo[filter.sqft.to].value;
+        }
+      }
 
       return searchParams;
   }
 
-  onMapRegionChangeComplete(region) {
-    this.setState({ mapRegion:region });
+  SearchPropertiesByAlgolia(region, filter){
+    // this.setState({ mapRegion:region });
+    this.props.setMapRegion(region);
 
-    let searchParams = this.getSearchParam(region);
+    let searchParams = this.getSearchParam(region, filter);
     this.props.setMainParams(searchParams);
 
     searchAlgolia(searchParams, (respArr, total) => {
-        this.props.setMainProperies(respArr);
-      })  
+      this.props.setMainProperies(respArr);
+    })
+
+  }
+
+  onMapRegionChangeComplete(region) {
+    this.SearchPropertiesByAlgolia(region, this.props.algolia.filters);
   }
   
   onPressMapView() {
@@ -162,18 +198,18 @@ console.log("onClickPropertyPreview");
   }
 
   render() {
+
     return (
       <View style={styles.container}>
           <MapView
             provider={PROVIDER_GOOGLE}
             style={styles.map}
             ref={ref => { this.mapView = ref; }}
-            initialRegion = {this.state.mapRegion}
+            initialRegion = {this.props.algolia.mapRegion}
             onRegionChange={this.onMapRegionChange.bind(this)}            
             onRegionChangeComplete={this.onMapRegionChangeComplete.bind(this)}    
-            onPress={this.onPressMapView.bind(this)}        
-          >
-            { this.props.algolia.mainProperties !== null && 
+            onPress={this.onPressMapView.bind(this)}>
+            { this.props.algolia.mainProperties !== null &&
               this.props.algolia.mainProperties.map( marker => (
                 <MapView.Marker
                   key= {marker.objectID}
@@ -181,16 +217,14 @@ console.log("onClickPropertyPreview");
                   coordinate={{
                   latitude: marker.locSearch[1],
                   longitude: marker.locSearch[0],
-                  }}
-                >
+                  }}>
                     <PriceMarker
                       amount={priceShort(marker.price)}
-                      data = {marker}
-                    />
+                      data = {marker}/>
                 </MapView.Marker>
-                
               ))}          
           </MapView>
+
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.bubble}
               onPress={ this.onClickCurrentPosition.bind(this)}>
@@ -199,24 +233,35 @@ console.log("onClickPropertyPreview");
                   resizeMode={'contain'}
                   source={Icons.location} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.bubble}
-              onPress={ this.onClickDraw.bind(this)}>
-                <Image
-                  style={styles.image}
-                  resizeMode={'contain'}
-                  source={Icons.pencil} />
-            </TouchableOpacity>
           </View>
-          {
-            this.state.IsDraw && (
-              <View style={styles.drawContainer}>
-                <TouchableOpacity style={styles.drawBubble}
-                  onPress={ this.onClickDrawRemove.bind(this)}>
-                  <Text>Remove</Text>
-                </TouchableOpacity>
-              </View>
-            )
-          }
+{
+          // <View style={styles.buttonContainer}>
+          //   <TouchableOpacity style={styles.bubble}
+          //     onPress={ this.onClickCurrentPosition.bind(this)}>
+          //       <Image
+          //         style={styles.image}
+          //         resizeMode={'contain'}
+          //         source={Icons.location} />
+          //   </TouchableOpacity>
+          //   <TouchableOpacity style={styles.bubble}
+          //     onPress={ this.onClickDraw.bind(this)}>
+          //       <Image
+          //         style={styles.image}
+          //         resizeMode={'contain'}
+          //         source={Icons.pencil} />
+          //   </TouchableOpacity>
+          // </View>
+          // {
+          //   this.state.IsDraw && (
+          //     <View style={styles.drawContainer}>
+          //       <TouchableOpacity style={styles.drawBubble}
+          //         onPress={ this.onClickDrawRemove.bind(this)}>
+          //         <Text>Remove</Text>
+          //       </TouchableOpacity>
+          //     </View>
+          //   )
+          // }
+}          
 
           {
             this.state.isPreviewVisible ? this.renderPreivew() : null
@@ -245,6 +290,7 @@ function mapDispatchToProps(dispatch) {
     setMainParams: mainParams => dispatch(setMainParams(mainParams)),
     setMainProperies : mainProperties => dispatch(setMainProperies(mainProperties)),
     setSelectedProperty : selectedProperty => dispatch(setSelectedProperty(selectedProperty)),
+    setMapRegion: mapRegion => dispatch(setMapRegion(mapRegion)),
   };
 }
 

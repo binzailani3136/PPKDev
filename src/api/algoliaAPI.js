@@ -194,90 +194,82 @@ export function searchAlgolia(searchParams, callBack) {
     });
 }
 
+export var itemsOfPrice = [
+        {caption:"Any", value:0},
+        {caption:"$100,000", value:100000},
+        {caption:"$150,000", value:150000},
+        {caption:"$200,000", value:200000},
+        {caption:"$250,000", value:250000},
+        {caption:"$300,000", value:300000},
+        {caption:"$350,000", value:350000},
+        {caption:"$400,000", value:400000},
+        {caption:"$450,000", value:450000},
+        {caption:"$500,000", value:500000},
+        {caption:"$550,000", value:550000},
+        {caption:"$600,000", value:600000},
+        {caption:"$650,000", value:650000},
+        {caption:"$700,000", value:700000},
+        {caption:"$750,000", value:750000},
+        {caption:"$800,000", value:800000},
+        {caption:"$850,000", value:850000},
+        {caption:"$900,000", value:900000},
+        {caption:"$950,000", value:950000},
+        {caption:"$1,000,000", value:1000000},
+        {caption:"$1,500,000", value:1500000},
+        {caption:"$2,000,000", value:2000000},
+      ];     
+
+export var itemsOfRoom = [
+        {caption:"1+", value:1},
+        {caption:"2+", value:2},
+        {caption:"3+", value:3},
+        {caption:"4+", value:4},
+        {caption:"5+", value:5},
+        {caption:"6+", value:6},
+      ];     
+      
+export var itemsOfSqFtFrom = [
+        {caption:"Min", value:0},
+        {caption:"700", value:700},
+        {caption:"1,000", value:1000},
+        {caption:"1,200", value:1000},
+        {caption:"1,500", value:1000},
+        {caption:"1,800", value:1000},
+        {caption:"2,000", value:1000},
+        {caption:"2,200", value:1000},
+        {caption:"2,400", value:1000},
+        {caption:"3,000", value:1000},
+        {caption:"4,000", value:1000},
+        {caption:"5,000", value:1000},
+        {caption:"6,000", value:1000},
+        {caption:"10,000", value:1000},
+        {caption:"20,000", value:1000},
+      ];     
+
+export var itemsOfSqFtTo = [
+        {caption:"Max", value:3000000},
+        {caption:"700", value:700},
+        {caption:"1,000", value:1000},
+        {caption:"1,200", value:1000},
+        {caption:"1,500", value:1000},
+        {caption:"1,800", value:1000},
+        {caption:"2,000", value:1000},
+        {caption:"2,200", value:1000},
+        {caption:"2,400", value:1000},
+        {caption:"3,000", value:1000},
+        {caption:"4,000", value:1000},
+        {caption:"5,000", value:1000},
+        {caption:"6,000", value:1000},
+        {caption:"10,000", value:1000},
+        {caption:"20,000", value:1000},
+      ];    
+
 export var types = {
   Both: ['Condo', 'Single Family'],
   Condo: 'Condo',
   'Single Family': 'Single Family',
   Land: 'Land',
 };
-
-export var sqfts = [700, 1e3, 1200, 1500, 1800, 2e3, 2200, 2400, 3e3, 4e3, 5e3, 6e3, 1e4, 2e4];
-
-export var maxPrices = [{
-  value: 15e4,
-  title: '$150,000',
-}, {
-  value: 2e5,
-  title: '$200,000',
-}, {
-  value: 25e4,
-  title: '$250,000',
-}, {
-  value: 3e5,
-  title: '$300,000',
-}, {
-  value: 35e4,
-  title: '$350,000',
-}, {
-  value: 4e5,
-  title: '$400,000',
-}, {
-  value: 45e4,
-  title: '$450,000',
-}, {
-  value: 5e5,
-  title: '$500,000',
-}, {
-  value: 6e5,
-  title: '$600,000',
-}, {
-  value: 75e4,
-  title: '$750,000',
-}, {
-  value: 85e4,
-  title: '$850,000',
-}, {
-  value: 1e6,
-  title: '$1,000,000',
-}, {
-  value: 15e5,
-  title: '$1,500,000',
-}, {
-  value: 2e6,
-  title: '$2,000,000',
-}, {
-  value: 999999999,
-  title: 'Any',
-}];
-
-export var minPrices = [{
-  value: 1e5,
-  title: '$100,000',
-}, {
-  value: 15e4,
-  title: '$150,000',
-}, {
-  value: 2e5,
-  title: '$200,000',
-}, {
-  value: 3e5,
-  title: '$300,000',
-}, {
-  value: 4e5,
-  title: '$400,000',
-}, {
-  value: 5e5,
-  title: '$500,000',
-}, {
-  value: 75e4,
-  title: '$750,000',
-}, {
-  value: 1e6,
-  title: '$1,000,000',
-}, {
-  value: 2e6,
-  title: '$2,000,000',
-}];
 
 export var acres = [{
   value: 0.2,
