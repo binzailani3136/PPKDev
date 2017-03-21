@@ -27,6 +27,8 @@ class PriceMarker extends React.Component {
 
   render() {
     const { fontSize, amount, selected, data } = this.props;
+// console.log("PriceMarker")    
+// console.log(amount)    
     return (
           <View style={styles.container}>
             <View style={styles.bubble}>
